@@ -1,0 +1,1277 @@
+﻿function strReverse(s) {
+	return s.split("").reverse().join("");
+}
+function addFavorite(title,url){
+	if (window.sidebar){
+		window.sidebar.addPanel(title, url,"");
+	}else if(document.all){
+		window.external.AddFavorite(url,title);
+	}else if(window.opera && window.print){
+		return true;
+	}
+}
+
+//strGetUrlArg("?id=8","id",6)
+function strGetUrlArg(s,sv,sd){
+	var a=s.match(new RegExp("(^|&|\\?)"+sv+"=[^&]*"))
+	return decodeURIComponent((a==null||sv==""?(sd||""):a[0].slice(sv.length+2)).replace(/\+/g, '%20'))
+}
+
+function strStripHtml(str,tag){
+	if(window.VBArray){
+		if(tag=='a'){
+			str=str.replace(/(<a .*?>|<\/a>)/g,'')
+		}
+	}
+	return str
+}
+
+function arrUnique(arr) {
+	for (var i = 0; i < arr.length; i++) {
+		for (var j = i + 1; j < arr.length; j++) {
+			if (arr[i] == arr[j]) {
+				arr.splice(j, 1);
+				j--;
+			}
+		}
+	}
+	return arr;
+}
+
+var doc={}
+doc.startTime=new Date().getTime()
+doc.endTime=function(){
+	return "<span style='color:#999;font-size:12px;'>Processed in "+(new Date().getTime()-doc.startTime)/1000+"s</span>"
+}
+doc.cryear=function(){
+	var s="&copy; 2019-"+(new Date().getFullYear())
+	document.write(s)
+}
+doc.mba=function () {
+    //document.write(strReverse("号28720060备PCI粤"))
+}
+doc.tel=function () {
+	var s="<img src=/images/spacer.gif class='sp_t_ic_tel' />电话：#"
+	s=s.replace(/#/g,strReverse("3297-6806-631"))
+    document.write(s)
+}
+doc.qq=function () {
+	var s="<img src=/images/spacer.gif class='sp_t_ic_qq' />QQ：#"
+	s=s.replace(/#/g,strReverse("6678993551"))
+    document.write(s)
+}
+doc.feedback=function(){
+	var s='<a href=http://www.shufaji.com/feedback/?site='+encodeURIComponent(window.location)+' target=_blank>修改建议</a>'
+	document.write(s)
+}
+doc.lawyer=function () {
+	//document.write(strReverse("师律铮刘：问顾律法站本"))
+}
+doc.nav=function(){
+	var s="<script u=union.e12345.com/text/tool_1.htm></script>"
+	s=s.replace(/u=/g,"src=http://")
+	document.write(s)
+}
+doc.nav2=function(){
+	var s=''
+		 +'<a href=/circle-pro/ target=_blank title="圆公璋专用版"><img src=http://www.skyfont.com/images/s_ic_signet.gif style="vertical-align:middle;margin-right:1px;">公璋</a> &nbsp; '
+		 +'<a href=http://seal.skyfont.com target=_blank title="天空方形印璋"><img src=http://www.skyfont.com/images/s_ic_seal.gif style="vertical-align:middle;margin-right:1px;">方璋</a> &nbsp; '
+		 +'<a href=/templet/ target=_blank title="印璋模板">模板</a> &nbsp; '
+		 +'<a href=http://gangbi.shufaji.com/#penfont target=_blank title="钢笔书法签名设计">签字</a> &nbsp;　'
+
+		 +'<a href=http://www.shufaji.com/feedback/?site='+encodeURIComponent(window.location)+' target=_blank style="color:#0056B3;" title="意见反馈">反馈</a> &nbsp; '
+		 //+'<a href="javascript:void(0)" target="_self" id="btn-jfzh" class="jfzh">繁體版</a> &nbsp; '
+		 +'<br>'
+		 +'<br>'
+		 +'<a href="http://www.395.net.cn" target="_blank" title="395实用工具">395工具</a> &nbsp;'
+		 +'<a href="http://www.p12345.com/qrbtf/" target="_blank" title="艺术化二维码生成器">制二维码</a> &nbsp;'
+		 +'<a href="http://ps.p12345.com" target="_blank" title="在线PS大师">图片处理</a> &nbsp;'
+		 +'　'
+		 +'<a href="/donate.html" target="_blank" class="btn-round">捐助站长</a>'
+		 +'<br>'
+		 +'<a href="https://shop.395.net.cn" target="_blank" title="395导购商城">395商城</a> &nbsp;'
+		 //+'<a href="http://www.ssjjss.com" target="_blank" title="设计师签名">签名设计</a> &nbsp;'
+		 +'<a href="http://hao.ssjjss.com" target="_blank" title="设计师导航">设计导航</a> &nbsp;'
+		 +'<a href="http://www.n12345.com" target="_blank" title="南国佛教">阿弥陀佛</a> &nbsp;'
+
+	s=s.replace(/璋/g,'章')
+	document.write(s)
+}
+doc.navtop=function(){
+	var s=''
+	s+='<b><a href="/templet/" target="_self" title="印璋模板">印璋库</a></b><span class=preview><b><a href="/" target="_self" title="圆形印璋">正圆璋</a><a href="/ellipse/" target="_self" title="椭圆形印璋">椭圆璋</a><a href="/cn-en/" target="_self" title="中英文印璋">中英璋</a><a href="/hk/" target="_self" title="香港印璋">香港璋</a><a href="/im/" target="_self" title="蒙文印璋">蒙文璋</a><a href="/double/" target="_self" title="双环印璋">双环璋</a><a href="/fingerprint/" target="_self" title="指纹印璋">指纹璋</a><a href="/cash/" target="_self" title="现金清讫印璋">清讫璋</a><a href="/diamond/" target="_self" title="菱形收货复核印璋">菱形璋</a><a href="/square/" target="_self" title="方名印璋">方名璋</a><a href="/square-m/" target="_self" title="方形印璋">方形璋</a><a href="/legal/" target="_self" title="法人印璋">法人璋</a><a href="/flat/" target="_self" title="姓名印璋">扁名璋</a><a href="/qc/" target="_self" title="产品合格印璋">合格璋</a><a href="/practice/" target="_self" title="建造师执业印璋">执业璋</a><a href="/cost/" target="_self" title="工程造价执业印璋">造价璋</a><a href="/sign/" target="_self" title="英文签名印璋">签名璋</a><a href="/bar/" target="_self" title="中英条形印璋">条形璋</a><a href="/common-seal/" target="_self" title="纯英文印璋">英文璋</a></b><a href="/cert/" target="_self" title="认证印璋">认证璋</a><a href="/single-bi/" target="_self" title="单环印璋">单环璋</a><a href="/tibet/" target="_self" title="藏文印璋">藏文璋</a><a href="/ug/" target="_self" title="维文印璋">维文璋</a></span><a href="/minority/" target="_self" title="少数民族印璋">民族璋</a><a href="/affix/" target="_self" title="盖璋合成工具">盖璋</a><a href="/paging/" target="_self" title="骑缝璋生成工具">骑缝璋</a><a href="/circle-batch/" target="_self" title="印璋批量生成器">批量制璋</a>'
+	s=s.replace(/璋/g,'章')
+	document.write(s)
+}
+doc.link=function(cmd){
+	var s=''
+	s+='<a href=http://seal.skyfont.com/ target=_blank>天空古印</a> &nbsp; '
+	s+='<a href=http://www.z12345.com/ target=_blank>篆刻之家</a> &nbsp; '
+	s+='<a href=http://zhuanshu.shufami.com/ target=_blank>篆书字典</a> &nbsp; '
+	s+='<a href=http://www.ssjjss.com/ target=_blank>签名设计</a> &nbsp; '
+	if(cmd){
+		return s
+	}else{
+		document.write(s)
+	}
+}
+doc.juzi=function(){
+	var s="<script u=union.e12345.com/text/juzi_fenfen.htm></script>"
+	s=s.replace(/u=/g,"src=http://")
+	document.write(s)
+}
+doc.duty=function(){
+	var s=''
+	//s+='<div style="text-align:center;">'
+	//s+='<span class="mhide"><img src="/images/socialist-core-values.gif"><br><br></span>'
+	s+='<b>免费</b>：无需注册下载任何软件，您可以免费使用本站的所有功能，没有邮件要求、订阅要求。<br>'
+	s+='<b>安全</b>：本站不会保存您制作的图片，服务器只提供字体数据，浏览器直接绘制生成图片。<br>'
+	s+='<br>'
+	s+='<b>注意</b>：395在线制作工具生成的图片资源仅供网友参考，本站不承担用户因非法使用本工具生成的图片对自己和他人造成任何形式的伤害或损失。用户免费分享或使用此在线资源请遵守国家相关法律法规。<br>'
+	s+='<b>警告</b>：本站在线生成图片仅供参考，请勿用于违法行为。本站亦不提供私刻、定制公璋业务，请勿咨询此类业务，谢谢！'
+	//s+='</div>'
+	document.write(s)
+}
+doc.gg=function(fmt){
+	if(typeof ggcore != 'undefined' && !ggcore.adable()) return;
+	if(!window.VBArray){
+		//document.write('<span style="color:#bbc;font-size:9px;">Namo Amitabha</span>');return;
+		var s1,s2,s3
+		s1='<script type="text/javascript">google_ad_client = "pub-4186526300894192";'
+		s3='google_ad_channel = "5324426893";google_color_border = "EEEEEE";google_color_bg = "EEEEEE";google_color_link = "003366";google_color_text = "000000";google_color_url = "808080";</script><script type="text/javascript"src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>'
+		switch(fmt){
+			case "336x280_t":
+				s2='google_ad_width = 336;google_ad_height = 280;google_ad_format = "336x280_as";google_ad_type = "text";'
+				break
+			case "336x280_i":
+				s2='google_ad_width = 336;google_ad_height = 280;google_ad_format = "336x280_as";google_ad_type = "image";'
+				break
+			case "336x280_ti":
+				s2='google_ad_width = 336;google_ad_height = 280;google_ad_format = "336x280_as";google_ad_type = "text_image";'
+				break
+			case "468x15_t":
+				s2='google_ad_width = 468;google_ad_height = 15;google_ad_format = "468x15_0ads_al_s";'
+				break
+			default:
+		}
+		document.write(s1+s2+s3)
+	}
+}
+
+doc.fmain=function(){
+
+	// 悬停预览
+	var navp={
+		'/':'c1',
+		'/ellipse/':'e1',
+		'/ellipse-pro/':'epro1',
+		'/cn-en/':'cnen1',
+		'/hk/':'hk1',
+		'/hk-oval/':'hkoval1',
+		'/cn-en-oval/':'cnenoval1',
+		'/im/':'im2',
+		'/tibet/':'tibet1',
+		'/ug/':'ug1',
+		'/double/':'double1',
+		'/single-bi/':'single-bi1',
+		'/fingerprint/':'fingerprint1',
+		'/cash/':'cash1',
+		'/diamond/':'diamond1',
+		'/practice/':'practice1',
+		'/practice-cost/':'practice-cost1',
+		'/cost/':'cost1',
+		'/flat/':'flat2',
+		'/qc/':'qc1',
+		'/sign/':'sign1',
+		'/bar/':'bar1',
+		'/common-seal/':'cs1',
+		'/legal/':'legal1',
+		'/square/':'square1',
+		'/square-m/':'square-m1',
+		'/cert/':'certcma'
+	}
+	$('#nav .preview a').on({
+		'mouseover': function(){
+			var fn=navp[this.href.split(window.location.host).pop()]
+			if(fn){
+				var css='display:none; position:absolute; top:-1000px; z-index:3003;'+(fn=='sign1'?'background:#fff;':'')
+				$('#napic').remove()
+				$('body').append('<img id="napic" src="/images/template/'+fn+'.png" style="'+css+'">')
+				$('#napic').load(function(){
+					$(this).show().glow({radius:'10', color:'white'})
+					$(this).css('filter','brightness(1.05) '+$(this).css('filter'))
+				})
+			}
+		},
+		'mouseout': function(){
+			$('#napic').remove()
+		},
+		'mousemove': function(e){
+			var p=$('#napic')
+			if(p.length && p[0].complete){
+				p.css({'left': e.pageX-p.width()/2, 'top': $(this).offset().top+65})
+			}
+		}
+	})
+
+
+	$('#jqmUB_content').one('mouseenter',function(){
+		$('#jqmUB_content img').on({
+			'mouseover': function(){
+				var css='display:none; position:absolute; top:-1000px; z-index:3003;'+(/(sign1)/.test(this.src)?'background:#fff;':'')
+				$('#sepic').remove()
+				$('body').append('<img id="sepic" src="'+this.src+'" style="'+css+'">')
+				$('#sepic').load(function(){
+					$(this).show().glow({radius:'10', color:'white'})
+				})
+			},
+			'mouseout': function(){
+				$('#sepic').remove()
+			},
+			'mousemove': function(e){
+				var p=$('#sepic')
+				if(p.length && p[0].complete){
+					p.css({'left': e.pageX-p.width()/2, 'top': $(this).offset().top-p.height()-10})
+				}
+			}
+		})
+	})
+
+
+	// 设置菜单
+	$('#setmenu').prepend(
+		 '<dl>'
+		+	'<dt>设置</dt>'
+		+	'<dd class="xpmenu-list">'
+		+		'<ul id="pane-dock">'
+		+			'<li><a href="javascript:void(0)" id="pane-left">面板左置</a></li>'
+		+			'<li><a href="javascript:void(0)" id="pane-right">面板右置</a></li>'
+		+			'<li><a href="javascript:void(0)" id="pane-default" class="tick">面板复位</a></li>'
+		//+			'<li><a href="javascript:void(0)" id="pane-settings">个性化定制</a></li>'
+		+		'</ul>'
+		+	'</dd>'
+		+'</dl> &nbsp;'
+	)
+	$('#pane-left, #pane-right, #pane-default').click(function(){
+		$('#frm').removeClass().addClass(this.id)
+		$('#sfcon4').removeClass().addClass(this.id+'-outsuit')
+		$('#sfexp').closest('td').removeClass().addClass(this.id+'-outsuit')
+		$('#pane-dock a').removeClass()
+		$(this).addClass('tick')
+		window.localStorage.setItem("sfDock",this.id.split('-')[1])
+	})
+	var dock=window.localStorage.getItem("sfDock")
+	if(dock!=null){
+		$('#pane-'+dock).click()
+	}
+
+
+	// 右侧菜单
+	$('body').append(
+		 '<nav id="mobi-nav">'
+		+'	<ul	class="menu">'
+		+'		<li><a href="/">395 首页</a></li>'
+		+'		<li><a href="/templet/">印璋模板</a></li>'
+		+'		<li>'
+		+'			<a href="#">印璋编辑</a>'
+		+'			<ul>'
+		+'				<li><a href=javascript:void(0) target="_self" onclick=$("#tm_undo").click() title="撤销上次操作 undo">撤销上次</a></li>'
+		+'				<li><a href=javascript:void(0) target="_self" onclick=$("#tm_redo").click() title="重做上次操作 redo">重做上次</a></li>'
+		+'			</ul>'
+		+'		</li>'
+		+'		<li>'
+		+'			<a href="#">印璋生成</a>'
+		+'			<ul>'
+		+'				<li><a href="/circle-pro/" target="_self" title="圆形印璋">正圆璋</a></li>'
+		+'				<li><a href="/ellipse-pro/" target="_self" title="椭圆形印璋">椭圆璋</a></li>'
+		+'				<li><a href="/cn-en/" target="_self" title="中英文印璋">中英璋</a></li>'
+		+'				<li><a href="/hk/" target="_self" title="香港印璋">香港璋</a></li>'
+		+'				<li><a href="/im/" target="_self" title="蒙文印璋">蒙文璋</a></li>'
+		+'				<li><a href="/double/" target="_self" title="双环印璋">双环璋</a></li>'
+		+'				<li><a href="/fingerprint/" target="_self" title="指纹印璋">指纹璋</a></li>'
+		+'				<li><a href="/cash/" target="_self" title="现金清讫印璋">清讫璋</a></li>'
+		+'				<li><a href="/diamond/" target="_self" title="菱形收货复核印璋">菱形璋</a></li>'
+		+'				<li><a href="/square/" target="_self" title="方名印璋">方名璋</a></li>'
+		+'				<li><a href="/square-m/" target="_self" title="方形印璋">方形璋</a></li>'
+		+'				<li><a href="/legal/" target="_self" title="法人印璋">法人璋</a></li>'
+		+'				<li><a href="/flat/" target="_self" title="姓名印璋">扁名璋</a></li>'
+		+'				<li><a href="/qc/" target="_self" title="产品合格印璋">合格璋</a></li>'
+		+'				<li><a href="/practice/" target="_self" title="建造师执业印璋">执业璋</a></li>'
+		+'				<li><a href="/cost/" target="_self" title="工程造价执业印璋">造价璋</a></li>'
+		+'				<li><a href="/sign/" target="_self" title="英文签名印璋">签名璋</a></li>'
+		+'				<li><a href="/bar/" target="_self" title="中英条形印璋">条形璋</a></li>'
+		+'				<li><a href="/common-seal/" target="_self" title="纯英文印璋">英文璋</a></li>'
+		+'				<li><a href="/cert/" target="_self" title="认证印璋">认证璋</a></li>'
+		+'				<li><a href="/single-bi/" target="_self" title="单环印璋">单环璋</a></li>'
+		+'				<li><a href="/tibet/" target="_self" title="藏文印璋">藏文璋</a></li>'
+		+'				<li><a href="/ug/" target="_self" title="维文印璋">维文璋</a></li>'
+		+'				<li><a href="/minority/" target="_self" title="少数民族印璋">民族璋</a></li>'
+		+'			</ul>'
+		+'		</li>'
+		+'		<li>'
+		+'			<a href="#">印璋工具</a>'
+		+'			<ul>'
+		+'				<li><a href="/affix/" target="_self" title="盖璋合成工具">盖璋</a></li>'
+		+'				<li><a href="/paging/" target="_self" title="骑缝璋生成工具">骑缝璋</a></li>'
+		+'				<li><a href="/circle-batch/" target="_self" title="印璋批量生成器">批量制璋</a></li>'
+		+'			</ul>'
+		+'		</li>'
+		+'		<li><a href="http://www.395.net.cn" target="_blank">更多应用</a></li>'
+		+'		<li><a href="/donate.html" target="_blank">捐助站长</a></li>'
+		+'		<li class=docmy><a href=javascript:void(0) target=_self onclick=doc.my()>账号管理</a></li>'
+		+'		<li><a href=javascript:void(0) target=_self onclick=doc.logout()>退出登录</a></li>'
+		+'	</ul>'
+		+'</nav>'
+		.replace(/璋/g,'章')
+	)
+	$('#mobi-nav').hcOffcanvasNav({
+		maxWidth: false,
+		position: 'right',
+		levelTitles: true,
+		closeOnClick: false,
+		labelClose: '&nbsp;',
+		labelBack: '返回'
+	})
+
+
+	// 保存模板
+	$('#bartool').append('　 <a href=javascript:void(0) target=_self id=save_templet>存模板</a>')
+	$('#save_templet').click(function(){
+		var obj={}
+		var ls=window.localStorage.getItem('archives')
+		if(ls){
+			obj=JSON.parse(ls)
+		}
+		var k=window.location.pathname
+		var a=obj[k] || []
+		//if(window.location.search!=''){
+			a.unshift({'url':window.location.pathname+'?'+$('#frm').serialize().replace('&offset=-1',''), 'date':new Date().getTime()})
+		//}
+		var s=''
+		s+='<dl>'
+		s+='<dt>'+$('#barhead a:first').text()+' &nbsp;<a href='+k+' target=_self>'+k+'</a> 由新到旧，8个内</dt>'
+		//if(a.length){
+			var b={}
+			for(var i=a.length-1; i>=0; i--){
+				b[a[i]['url']]=a[i]
+			}
+			a=[]
+			for(var i in b){
+				a.unshift(b[i])
+			}
+			a.sort(function(ai,bi){return bi.date-ai.date})
+			a=a.slice(0,8)
+			obj[k]=a
+			window.localStorage.setItem('archives', JSON.stringify(obj))
+			for(var i=0; i<a.length; i++){
+				var t=decodeURIComponent(a[i]['url'].replace(/\+/g,' ')).match(/char.{1,2}=[^&]*/g).join('，').replace(/char.{1,2}=/g,'')
+				s+='<dd><i>'+(i+1)+'.</i> <a href='+a[i]['url']+' target=_self>'+t+'</a></dd>'
+				//s+='<dt>'+dayjs(a[i]['date']).format('YYYY-MM-DD HH:mm:ss')+'</dt>'
+				s+='<dt>'+getFormatDate(a[i]['date'])+'</dt>'
+			}
+		//}
+		s+='</dl>'
+
+		layer.open({
+			isOutAnim: false,
+			shadeClose: true,
+			title: '模板存档',
+			content: '<div id=archives_list>'+s+'</div>',
+			btn: ['清空','确定'],
+			yes: function(index,layero){
+				delete obj[k]
+				window.localStorage.setItem('archives', JSON.stringify(obj))
+				$('#archives_list').html('')
+			},
+			success: function(layero, index){
+				layer.tips('已存档为模板',$('#archives_list dd:first'),{tips:1, anim:-1, isOutAnim:false})
+			}
+		})
+	})
+	var getFormatDate=function(e){
+		var t=e?new Date(e):new Date,n=t.getMonth()+1,a=t.getDate(),g=t.getHours(),r=t.getMinutes(),o=t.getSeconds();
+		return n>=1&&n<=9&&(n="0"+n),a>=0&&a<=9&&(a="0"+a),g>=0&&g<=9&&(g="0"+g),r>=0&&r<=9&&(r="0"+r),o>=0&&o<=9&&(o="0"+o),
+		//yyyy-mm-dd MM:mm:ss
+		t.getFullYear()+"-"+n+"-"+a+" "+g+":"+r+":"+o
+	}
+
+
+	// 速换字体
+	var fo=$('input[id=font],input[id=fontcn],input[id=fonta]')
+	if(fo.length){
+		fo.after('&nbsp; <a href="javascript:void(0)" id=qcfont>速换</a>')
+		$('#qcfont').click(function(){
+			$(C45?'body':'html').animate({scrollTop:$('#sftree').prev().offset().top},1000)
+		})
+	}
+
+
+	// 过滤字词
+	$('#chara, #charb, #charbc, #charc, #chard, #chare, #charf, #charg').blur(function(){
+		chkban(this)
+	})
+	var bre
+	$.ajax({
+		url:'/common/ban.txt',
+		success:function(text){
+			var s=text.match(/\t[^\r]+\r/g).join('|').replace(/[\t\r]+/g,'')
+			bre=new RegExp('('+s+')','g')
+		}
+	})
+	var chkban=function(e){
+		var s1=e.value
+		var s2=s1.replace(bre,'')
+		var ta=[]
+		if(s1!=s2){
+			ta=s1.match(bre)
+		}
+		if(ud && /(13660867923|13585308031|13927300580)/g.test(ud.cellphone || ud.email.split('@')[0]) ){
+			var r=/(月明风清)/g
+		}else{
+			var r=/(政府|银行)/g
+		}
+		var s3=s2.replace(r,'')
+		if(s3!=s2){
+			ta=ta.concat(s2.match(r))
+		}
+		ta=ta.join('、')
+		if(ta){
+			layer.tips('关键词【'+ta+'】已被过滤',e,{tips:3, time:2000, anim:-1, isOutAnim:false})
+		}
+		e.value=s3
+	}
+
+
+	// 外边距
+	if(!/\/(affix|paging|circle-batch)/g.test(window.location.pathname)){
+		var mn=0
+		try{ mn=$.query.get('margin')||0 }catch(e){}
+		var s='<select name=margin id=margin>'
+		for(var i=0; i<=8; i++){
+			s+='<option value='+i+'>'+i+'</option>'
+		}
+		s+='</select>'
+		$('#size').after('<i>&#12288;</i><span class="c0 tip" data-original-title="四边留出空白，不支持预览">外边距</span>'+s)
+		$('#margin').change(function(){
+			$('#size').change().blur()
+		}).val(mn)
+	}
+
+
+	// 换算弹窗
+	if($('#size_select').length>0){
+		var wd=window.devicePixelRatio || 1
+		var dn=$.query.get('dpi') || wd*96
+		if(String(sfcore.exportImgCore).indexOf('h5export_pot.html')>-1){
+			$('#size').after('&nbsp; <a href="javascript:void(0)" id=mm2px>换算</a><input type="hidden" id="dpi" name="dpi" value="'+dn+'" />')
+		}
+		$('#mm2px').click(function(){
+				layer.open({
+					isOutAnim: false,
+					shadeClose: true,
+					title: '\u5370章大小换算器',
+					content: '将 毫米 换算为 象素 供网站使用<br>该值是\u5370章直径、长径或长边<br>'		// diff
+						+'毫米： <input type="number" id="mmnum" maxlength="4" value="42.3" min="0" max="100" step="0.1" style="width:4em" /> mm'
+						+'<br>'
+						+'象素： <span id=pxnum></span> px'
+						+'<br>'
+						+'分辩率 <input type="number" id="dpinum" maxlength="4" value="'+$('#dpi').val()+'" min="96" max="1200" step="1" style="width:4em" /> 象素/英寸'
+					,
+					btn: ['设定','取消'],
+					yes: function(index,layero){
+						$('#size_select').val('custom').change()
+						$('#size').val($('#pxnum').text()).blur()
+						layer.close(index)
+					}
+				})
+				var munit=160/96*25.4
+				$('#mmnum').on('change keyup',function(e){
+					$('#pxnum').text(Math.round(160/munit*this.value))
+					if(e.which==13){
+						$('.layui-layer-btn0').click()
+					}
+				})
+				.val(Math.round(munit/160*$('#size').val()*10)/10)
+				.change()
+				$('#dpinum').on('change keyup',function(e){
+					$('#dpi').val(this.value)
+					if(e.which==13){
+						$('.layui-layer-btn0').click()
+					}
+				})
+			})
+	}
+
+
+	// 调色版
+	var pickInit=function(id){
+		var fc=$('#'+id)
+		fc.after(' <img id="'+id+'_picker" class="mhide" src="/images/t_ic_color.gif" style="cursor:pointer;vertical-align:middle;" />')
+		$('#'+id+'_picker').one('mousedown',function(){
+			$(this).colorpicker({
+				fillcolor: true,
+				target: fc,
+				event: 'click',
+				success: function(perpicker,color){
+					sfcore.cpicker.linkTo(fc).setColor(fc.val())
+					fc.blur()
+				}
+			})
+		})
+	}
+	pickInit('forecolor')
+	pickInit('backcolor')
+
+
+	// 右键菜单
+	$('#savebtn').after(' <button type="button" id="downbtn" class="tip" value=" 下载字体 " data-original-title="下载字体"> 下载字体 </button>　<input type="checkbox" name="defmenu" id="defmenu" /><label for="defmenu"><span class="tip" data-original-title="① 勾选后，预览图上点击右键会弹出浏览器默认菜单<br>②【模拟仿真】选≥0，预览图上右键选【复制图片】，在word或wps里粘贴使用<br>③ 勾选后，保存SVG图片时不压缩代码">默认右键</span></label>　 <span id="geninfo" class="tip" data-original-title="图片尺寸：宽度ｘ高度，设置【卬章大小】项可修改"></span> ')
+	if($('#defmenu').length>0){
+		$('#defmenu').prop('checked', !!$.query.get('defmenu'))
+	}
+	if( !doc.isIE && !(/\/(affix|paging)/g.test(window.location.pathname)) ){
+		$('#sfcon').one('mouseenter',function(){
+
+			$(this).on('contextmenu',function(e){
+				if(Electron){ e.target.preventDefault() }
+				return $('#defmenu').prop('checked')?true:false
+			})
+			.mousedown(function(e){
+				if(!$('#defmenu').prop('checked')){
+					if(e.which==3){
+						$('#p_menu').css({'left':e.pageX+1, 'top':e.pageY+1}).show()
+					}else if(e.which==1){
+						$('#p_menu').hide()
+					}
+				}
+			})
+			.after(
+				 '<div id="p_menu" class="xpmenu-list" style="z-index:3003;text-align:left;">'
+				+'	<ul>'
+				+'		<li><a id="p_menu_undo" href="javascript:void(0)" target="_self">撤销上次</a></li>'
+				+'		<li><a id="p_menu_redo" href="javascript:void(0)" target="_self">重做上次</a></li>'
+				+'		<li><a id="p_menu_save" href="javascript:void(0)" target="_self">保存图片</a></li>'
+				+'		<li><a id="p_menu_size" href="javascript:void(0)" target="_self">调整大小</a></li>'
+				+'		<li><a id="p_menu_font" href="javascript:void(0)" target="_self">填补缺字</a></li>'
+				+'		<li><a id="p_menu_edge" href="javascript:void(0)" target="_self">修复裁边</a></li>'
+				+'		<li><a id="p_menu_defm" href="javascript:void(0)" target="_self">默认右键</a></li>'
+				+'	</ul>'
+				+'</div>'
+			)
+
+			$('#p_menu_undo').click(function(){
+				$('#tm_undo').click()
+			})
+			$('#p_menu_redo').click(function(){
+				$('#tm_redo').click()
+			})
+			$('#p_menu_save').click(function(){
+				$('#savebtn').trigger('click','RIGHT_MOUSE')
+				//layer.tips('保存\u5370章图片',$('#expbtn')[0],{tips:1, anim:-1, isOutAnim:false})
+				//$('.layui-layer-content').css('font-size',14)
+			})
+			$('#p_menu_size').click(function(){
+				layer.tips('调整\u5370章大小',$('select[id=size],select[id=size_select]')[0],{tips:3, anim:-1, isOutAnim:false})
+				//$('.layui-layer-content').css('font-size',14)
+			})
+			var fo=$('input[id=font],input[id=fontcn],input[id=fonta]')
+			if(fo.length){
+				$('#p_menu_font').click(function(){
+					layer.tips('填补缺字请选用GBK字体，如：<br>方正小标宋_GBK',fo[0],{tips:3, anim:-1, isOutAnim:false})
+					//$('.layui-layer-content').css('font-size',14)
+				})
+			}else{
+				$('#p_menu_font').parent().remove()
+			}
+			$('#p_menu_edge').click(function(){
+				layer.msg('修复裁边请调整页面缩放为100%', {anim:5, isOutAnim:false})
+				$('.layui-layer-hui').css('background-color','rgba(0,0,0,.75)')
+			})
+			$('#p_menu_defm').click(function(){
+				layer.tips('选中时，右键点击预览图片，弹出浏览器默认菜单',$('#defmenu')[0],{tips:3, anim:-1, isOutAnim:false})
+				//$('.layui-layer-content').css('font-size',14)
+			})
+
+			/*
+			var obj=$('#sfcon > object')
+			if(obj.length){
+				var d=obj[0].contentDocument
+				$(d).on('contextmenu',function(e){
+					if(Electron){ e.target.preventDefault() }
+					return $('#defmenu').prop('checked')?true:false
+				})
+				.mousedown(function(e){
+					if(!$('#defmenu').prop('checked')){
+						if(e.which==3){
+							var x=obj.offset().left,
+								y=obj.offset().top
+							$('#p_menu').css({'left':e.pageX+x+1, 'top':e.pageY+y+1}).show()
+						}else if(e.which==1){
+							$('#p_menu').hide()
+						}
+					}
+				})
+			}
+			*/
+			var obj,sdoc
+			$('#sfcon').on('mouseenter',function(){
+				if(!obj || !obj.parent().length || !sdoc){
+					obj=$('#sfcon > object')
+					if(obj.length){
+						sdoc=obj[0].getSVGDocument()
+						if(!sdoc){
+							setTimeout(function(){
+								$('#sfcon').mouseenter()
+							}, 20)
+						}else{
+							$(sdoc).on('contextmenu',function(e){
+								if(Electron){ e.target.preventDefault() }
+								return $('#defmenu').prop('checked')?true:false
+							})
+							.mousedown(function(e){
+								if(!$('#defmenu').prop('checked')){
+									if(e.which==3){
+										var x=obj.offset().left,
+											y=obj.offset().top
+										$('#p_menu').css({'left':e.pageX+x+1, 'top':e.pageY+y+1}).show()
+									}else if(e.which==1){
+										$('#p_menu').hide()
+									}
+								}
+							})
+						}
+					}
+				}
+			}).mouseenter()
+
+			$('body').click(function(){
+				$('#p_menu').hide()
+			})
+		})
+	}
+
+
+	// 图片信息
+	var genInfo=function(d){
+		d=Number(d)
+		if(d){
+			$('#geninfo').html('size: '+d+'x'+d)
+		}
+	}
+	$('select[id=size],select[id=size_select]').change(function(){
+		genInfo(this.value)
+	})
+	$('input[id=size]').blur(function(){
+		genInfo(this.value)
+	})
+	var stsize='select[id=size],select[id=size_select],input[id=size]'
+	$('#geninfo').hover(
+		function(){
+			$(stsize).addClass('txt-light')
+		},
+		function(){
+			$(stsize).removeClass('txt-light')
+		}
+	)
+
+
+	// 拖动窗口
+	$('.aui_title').each(function(){
+		$(this).data('wid', $(this).closest('.jqmWindow'))
+		.mousedown(function(e){
+			var t=$(this).data('wid')
+			t.data('m', true)
+			var x = e.pageX - parseInt(t.css('left'))
+			var y = e.pageY - parseInt(t.css('top'))
+			t.data('x', x)
+			t.data('y', y)
+		})
+		.mousemove(function(e){
+			var t=$(this).data('wid')
+			if(t.data('m')){
+				var	x = e.pageX - t.data('x')
+				var	y = e.pageY - t.data('y')
+				t.css({top:y, left:x})
+			}
+		})
+		.mouseup(function(){
+			var t=$(this).data('wid')
+			t.data('m', false)
+		})
+	}).css('cursor','move')
+
+
+	// 键盘控制
+	$(document).keydown(function(e){
+		if(e.which==27){ //esc
+			$('.jqmClose').click()
+			$('.pt').hide()
+			layer.closeAll()
+		}
+	});
+
+	// 广告填字
+	//if(/noad=on/.test(window.location.search)){
+	if($('#noad').length && sfcore.noad){
+		$('.gg_336x280').html('<span style="color:#bbc;font-size:9px;">Namo Amitabha</span>')
+	}
+}
+
+doc.fsub=function(){
+
+	// 工具提示
+	var layerTips=function(target){
+		$(target).hover(
+			function(){
+				layer.tips($(this).attr('data-original-title'),this,{tips:3, time:0, anim:-1, isOutAnim:false})
+				//$('.layui-layer-content').css('font-size',14)
+			},
+			function(){
+				if(!$('.pop-save').length){
+					layer.close(layer.index)
+				}
+			}
+		)
+	}
+	if(!doc.isIE){
+		layerTips('#trans_help')
+		layerTips('#frm .tip')
+		layerTips('#barhead .tip')
+	}
+
+
+	// 保存图片
+	$('#savebtn').click(function(event,rightMouse){
+		layer.closeAll()
+		layer.open({
+			type: 1,
+			skin: 'pop-save',
+			isOutAnim: false,
+			shadeClose: true,
+			title:'保存图片',
+			content: $('#sfexp'),
+			success: function(){
+				if(rightMouse){
+					sfcore.exportImg()
+					$('#expbtn').click()
+				}
+			},
+			end: function(){
+				sfcore.exportImg()
+			}
+		})
+	})
+
+
+	// 下载字体
+	if(/\/(single-loc|ug)/.test(window.location.pathname)){
+		$('#downbtn').remove()
+	}else{
+		$('#downbtn').click(function(){
+			var a=[]
+			$('#font, .sfont').each(function(){
+				var fval=$(this).val()
+				if(/^[A-Za-z]/.test(fval)){
+					var path='http://en.skyfont.com/datafile/font/ttf/'+sfcore.getFontenPath(fval)+'.ttf'
+					a.push('英文字体：<a href="'+path+'" target=_blank>'+fval+'.ttf</a>')
+				}else{
+					var ft=sfcore.getOFontVal(fval)
+					var fkey=ft.indexOf('-')!=-1?'ppzt':(ft=='type'?'ppzt':'mfzt')
+					a.push(ctfile.getFont(fkey,fval))
+				}
+			})
+			layer.closeAll()
+			layer.open({
+				type: 1,
+				skin: 'pop-save',
+				isOutAnim: false,
+				shadeClose: true,
+				maxWidth: 768,
+				title: '395字体下载',
+				btn: ['确定'],
+				content: strStripHtml(arrUnique(a).join('<br><br>'),'a')
+			})
+			$('.layui-layer-btn').css('padding-top','0')
+		})
+	}
+
+
+	// 按钮波纹
+	$('#submit, #savebtn, .btn-pri, .btn-sec, .btn-ter').addClass('mu-button').ripples()
+
+
+	// 换字列表
+	$('#sftreebtn').click(function(){
+		$('#sftree').toggle()
+	})
+
+
+	// 下载列表
+	$('#sfdownbtn').click(function(){
+		$('#sfdown').toggle()
+	})
+	var dc=ctfile.getCata()
+	var s=''
+	s+='<ul>'
+	for(var k in dc){
+		s+='<li><a href=http://gold.ssjjss.com/download/?catalog='+k+' target=_blank>'+k+'</a></li>'
+	}
+	s+='</ul>'
+	$('#sfdown').html(s)
+
+
+	// 撤销重做 undo/redo
+	$(function(){
+		var pse=function(sd){
+			var pm = {}
+			  , de = decodeURIComponent
+			  , sr = sd.replace(/^(?:\?|#|&)/, '')
+			  , qs = sr.split('&')
+			  , pa
+			for(var i=0; i<qs.length; i++){
+				pa = qs[i].split('=')
+				pm[de(pa[0])] = de(pa[1] || '')
+			}
+			return pm
+		}
+		var urcmd=function(se,sd){
+			se=se||''
+			sd=sd||''
+			var se=pse(se)
+			  , sd=pse(sd)
+			  , ur={}
+			for(var k in sd){
+				if(sd[k]!=se[k]){
+					ur[k]=sd[k]
+				}
+			}
+			$.each(ur, function(name, v){
+				var input = $('#frm [name="' + name + '"]')
+				  , type = input.attr('type')
+				  , id = input.attr('id')||''
+				v = type === 'checkbox' || type === 'radio' ? v : decodeURIComponent(v)
+				if(input.val()!=v){
+					if(input.hasClass('sfont')){
+						sfcore.fontInput=input[0]
+						sfcore.onFontlibSelect(v)
+					}else if(id.indexOf('char')==0){
+						$('#'+name+'_slave').val(v)
+					}else if(id=='number'){
+						$('#number_select').val(v).change()
+					}else if(id=='size'){
+						var vs = $('#size_select option[value="'+v+'"]').length>0 ? v : 'custom'
+						$('#size_select').val(vs).change()
+					}
+					input.val(v)
+					if(input.hasClass('colorwell')){
+						sfcore.fSetColor(id,v)
+						sfcore.cpicker.linkTo(input).setColor(v)
+					}else{
+						try{
+							if(input.is(':visible') || input.is('[type="hidden"]')) input.change().blur().trigger('ihchange');
+						}catch(e){
+							//console.log([input,e])
+						}
+					}
+				}
+			})
+			var setchk=function(k){
+				if(se[k] || sd[k]){
+					var b = (typeof ur[k]=='undefined' ? false:true)
+					var c = $('#'+k).prop('checked', b)
+					switch (k){
+						case 'backalpha':
+							sfcore.backalphaSwap()
+							break
+						case 'ring':
+							if(sfcore.ringSwap) sfcore.ringSwap()
+							break
+						case 'bolda':
+						case 'boldc':
+							sfcore.boldSwap(k.substr(-1))
+							break
+						default :;
+					}
+				}
+			}
+			setchk('backalpha')
+			setchk('ring')
+			setchk('bolda')
+			setchk('boldc')
+		}
+		var undoArr=[]
+		var redoArr=[]
+		$('#frm').click(function(e){
+			var sd=$('#frm').serialize()
+			var len=undoArr.length
+			if(len==0 || sd!=undoArr[len-1]){
+				undoArr.push(sd)
+			}
+		})
+		$('#editor').bind('focus blur',function(e){
+			$('#frm').click()
+		})
+		$('#picker').bind('blur',function(e){
+			$('#frm').click()
+		})
+		$('#tm_undo').click(function(e){
+			if(undoArr.length){
+				var se=$('#frm').serialize()
+				var sd=undoArr.pop()
+				redoArr.push(se)
+				if(se==sd){
+					sd=undoArr.pop()
+				}
+				redoArr.push(sd)
+				urcmd(se,sd)
+			}
+		})
+		$('#tm_redo').click(function(e){
+			if(redoArr.length){
+				var se=$('#frm').serialize()
+				var sd=redoArr.pop()
+				undoArr.push(se)
+				if(se==sd){
+					sd=redoArr.pop()
+				}
+				undoArr.push(sd)
+				urcmd(se,sd)
+			}
+		})
+	})
+}
+
+doc.flogo=function(){
+
+	var a=$('head').html().match(/<title>[\s\S]*?\n\n<\!-- ([\s\S]*?) -->/)
+	if(a){
+		document.title=a[1].split('').reverse().join('').replace(/卬璋/g,'\u5370章')
+	}
+	var a=$('#footer .ffav a').html().match(/收藏<\!-- InstanceBeginEditable name="er2" --><\!-- ([\s\S]*?) --><\!-- InstanceEndEditable -->/)
+	if(a){
+		$('#footer .ffav a').html('收藏'+a[1].split('').reverse().join(''))
+	}
+
+	var s=''
+	//s+='<span style=line-height:1.8em><a href=http://web.c12345.com target=_blank>程园丁开发</a> &nbsp;<span style=color:#666>+</span>&nbsp; <a href=http://logo.p12345.com target=_blank>标志库设计</a></span><br>'
+	s+=doc.endTime()+'<br>'
+	s+='<a href=http://www.n12345.com target=_blank title=南无阿弥陀佛><img src=http://www.n12345.com/images/nmamtf.gif width=135 height=45 class=logo /></a><br>'
+	if(!window.VBArray){
+		var hn=window.location.hostname
+		s+=' <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>'
+		if(hn.indexOf('aa6666.com')!=-1){
+			s+='<script>LA.init({id:"JjzDdU9k9Zs6Ysyf",ck:"JjzDdU9k9Zs6Ysyf"})</script>'
+		}else if(hn.indexOf('ssjjss.com')!=-1){
+			s+='<script>LA.init({id:"JjzD4Cna0nc1gCXQ",ck:"JjzD4Cna0nc1gCXQ"})</script>'
+		}else if(hn.indexOf('redmi.work')!=-1){
+			s+='<script>LA.init({id:"K6OFfRljHsqE5A10",ck:"K6OFfRljHsqE5A10"})</script>'
+		}
+		s+='<script>LA.init({id:"KY81iSVb5yG9wXVK",ck:"KY81iSVb5yG9wXVK"})</script>'
+	}
+	document.write(s)
+
+	$('#barhead').append('<span id=bartool class=mhide2>　 </span>')
+
+	if(window.location.search==''){
+		var ck=window.localStorage.getItem('lastmake:'+window.location.pathname)
+		if(ck){
+			$('#bartool').append('　 <a href='+ck+' target=_self>上次作</a>')
+		}
+	}else{
+		window.localStorage.setItem('lastmake:'+window.location.pathname, window.location)	//max support 5M
+	}
+
+	//topbar linear
+	var ua=UAParser()
+	if(ua.browser.name=='Edge' ||  ua.browser.name=='Chrome' && parseInt(ua.browser.version.split('.')[0],10) >55 ){
+		$('#header').css('border-image','linear-gradient(to right, #C0C0C0 15%, #A5A5A5 20%) 1')
+		$('#sfbar').css('border-image','linear-gradient(to right, #fff 15%, #E5E5E5 20%) 1')
+	}
+
+	doc.fmain()
+
+	doc.fsub()	//COMP circle-pro-2019
+
+	$('#bartool').append('　<a href=javascript:void(0) target=_self id=tm_undo>撤销</a>　<a href=javascript:void(0) target=_self id=tm_redo>重做</a><span class=docmy>　<a href=javascript:void(0) target=_self onclick=doc.my()>账号</a></span>　<a href=javascript:void(0) target=_self onclick=doc.logout()>退出</a>')
+
+
+	var userinfo=window.localStorage.getItem('sfLoginInfo')
+	ud=JSON.parse(userinfo)
+	if(ud){
+		$('.docmy').toggle(!!ud.id)
+	}
+
+	$(function(){
+		//rlayout
+		if($(window).width()<924){
+			$('.mhide').remove()
+			$('input.colorwell').attr('readonly',true)
+			var b=$('div.cbox')
+			b.eq(2).insertBefore(b.eq(0))
+			b.eq(1).insertBefore(b.eq(0))
+			$('.jqmWindow').css('position','absolute')
+		}
+		var wd=window.devicePixelRatio
+		if(wd && wd>1){
+			$('#logo img').attr('src','/images/logo_x2.gif')
+			$('#footer .logo').attr('src','http://www.n12345.com/images/nmamtf_x2.gif')
+			$('#sfcon3').css('border-top-color','#E0E0E0')
+			$('#footer, #sfbar').addClass('hdx2')
+			$('.cbox img[src*="s_ic_"]').each(function(){
+				this.width=16
+				this.src=this.src.replace('images/','images/x2/').replace('.gif','.png')
+			})
+		}
+		//$('#logo img').attr('src','/images/logo_google_x2.gif')
+
+		if($(window).width()>=924){
+			$('#header').navfix(0,3018)
+			$('.hc-nav-trigger').css('position','fixed')
+		}else{
+			$('body').css('background-attachment','scroll')
+		}
+
+		$('#topbtn').click(function(){
+			$(window).scrollTop(0)
+		})
+
+		if(Electron){ //v1.0
+			$('input,textarea').keydown(function(e){
+				e.stopPropagation()
+			})
+
+		}
+
+		//<a href=http://www.skyfont.com/business.html target=_blank>本页字体商用需授权</a>
+		$('#footer a:eq(1)').after(' &nbsp; <a href=/donate.html target=_blank>捐助站长</a> &nbsp; <a href=/help/ target=_blank>帮助中心</a>')
+
+		var pn=window.location.pathname
+		var pa=pn.match(/\/(ellipse|cn-en|hk|im|double|fingerprint|cash|diamond|square\/|square-m|legal|flat|qc|practice|cost|cert|sign|bar|common-seal|single|tibet|ug|minority|affix|paging|circle-batch|templet)/g)
+		if(pa){
+			$('#nav a[href*="'+pa[0]+'"]:eq(0)').addClass('st')
+		}else{
+			$('#nav a:eq(1)').addClass('st')
+		}
+
+		if($.y2b){
+			$('html').y2b();
+		}
+		if($.s2t && $('#nav a').length>0){
+
+			$('#header a:last').after('<a href="javascript:void(0)" target=_self class=jfzh>繁體版</a>')
+			$('a.jfzh').click(function(){
+				if($(this).text()=='繁體版'){
+					window.localStorage.setItem("sfJFzh",'f')
+					window.location.reload()
+				}else{
+					window.localStorage.setItem("sfJFzh",'j')
+					window.location.reload()
+				}
+			})
+
+			$('#lang-zh-hans').click(function(){
+				window.localStorage.setItem("sfJFzh",'j')
+				window.location.reload()
+			})
+
+			$('#lang-zh-hant').click(function(){
+				window.localStorage.setItem("sfJFzh",'f')
+				window.location.reload()
+			})
+
+			var ck=window.localStorage.getItem("sfJFzh")
+			if(ck!=null){
+				if(ck=='f'){
+					$('html').s2t();
+					$('a.jfzh').text('简体版')
+					$('#lang-zh-hans').text('简体版')
+					$('#lang-zh-hant').addClass('tick')
+				}else{
+					$('#lang-zh-hans').addClass('tick')
+				}
+			}else{
+				$('#lang-zh-hans').addClass('tick')
+			}
+
+		}
+		if(window.VBArray){
+			$('body').change(function(){
+				$('a').attr('target','_self')
+			})
+		}
+	});
+}
+
+doc.isIE=(!!window.ActiveXObject||"ActiveXObject" in window)
+
+doc.feet=function(){
+	if(!doc.isIE && !window.location.search){
+		document.write('<script src=/common/feet.htm></script>')
+	}
+}
+
+
+doc.loginchk=function(){
+	var loginDate=window.localStorage.getItem('sfLoginDate')
+	if(loginDate!=null){
+		if(new Date(loginDate*1).getMonth()==new Date().getMonth()){
+			return
+		}
+	}
+	if(window.location.pathname!='/login/'){window.location='/login/'}
+}
+doc.loginok=function(userinfo){
+	window.localStorage.setItem('sfLoginInfo', userinfo)
+	window.localStorage.setItem('sfLoginDate', new Date().getTime())
+	window.location='/'
+}
+doc.my=function(){
+	if(!ud){
+		var userinfo=window.localStorage.getItem('sfLoginInfo')
+		ud=JSON.parse(userinfo)
+	}
+
+	var tipsLeftIdx
+	var tipsLeft=function(ele,str,clr){
+		clr = clr || '#263238'
+		layer.close(tipsLeftIdx)
+		tipsLeftIdx=layer.tips('<div style="text-align:center;">'+str+'<div>', $('#'+ele), {tips: [4,clr], tipsMore: true})
+	}
+
+	var tipsRight=function(ele,str,clr){
+		clr = clr || '#FF5722'
+		var e=$('#'+ele)
+		layer.close(e.data('idx'))
+		var idx=layer.tips('<div style="text-align:center;">'+str+'<div>', e, {tips: [2,clr], tipsMore: true})
+		e.data('idx',idx)
+	}
+
+	var layerMod_opt
+	var layerMod_idx= layer.prompt( layerMod_opt={
+		isOutAnim: false,
+		title: ['账号管理','color:#000; background:#fff;'],
+		formType: 2,
+		content: '<form id="mod_form" class="sign-form">'
+				+(ud.cellphone?('<span title="'+ud.id+'">手机：</span><input type="text" value="'+ud.cellphone+'" class="layui-layer-input mod-input" disabled><br>'):'')
+				+(ud.email?('<span title="'+ud.id+'">邮箱：</span><input type="text" value="'+ud.email+'" class="layui-layer-input mod-input" disabled><br>'):'')
+				+(ud.username?('账号：<input type="text" value="'+ud.username+'" class="layui-layer-input mod-input" disabled><br>'):'')
+				+'<img src="/images/spacer.gif" class="password-eye">'
+				+'密码：<input type="password" id="m_password" name="password" class="layui-layer-input sign-input" placeholder="请输入新密码"><br>'
+				+'<input type="hidden" name="id" value="'+ud.id+'">'
+				+'</form>'
+		,
+		btn: ['修改','取消'],
+
+		success: function(layero){
+			$('#m_password').focus(function(){
+				tipsLeft('m_password', '8~16个字符，可包含大、小写字母和数字')
+
+			}).blur(function(){
+				var m_password=this.value
+				if( m_password=='' ){
+				}else if( !/[\w~!@#$%^&*)(_+}{|:?><]{8,16}/.test(m_password) ){
+					tipsRight('m_password', '密码格式错误')
+				}
+			})
+
+			layero.find('.layui-layer-btn0').css('background-color','#263238').css('border-color','#263238').addClass('mu-button').ripples()
+			layero.find('.layui-layer-input').on('keydown',function(e){
+				if(e.which==13){
+					layerMod_opt.yes(layerMod_idx,layero)
+				}
+			})
+			layero.find('.password-eye').click(function(){
+				$(this).next().prop('type', $(this).toggleClass('password-eye-on').hasClass('password-eye-on')?'text':'password')
+			})
+
+		},
+		yes: function(index,layero){
+			var m_password=$('#m_password').val()
+			if( m_password=='' ){
+				tipsRight('m_password', '请输入密码')
+
+			}else if( !/[\w~!@#$%^&*)(_+}{|:?><]{8,16}/.test(m_password) ){
+				//tipsRight('m_password', '密码格式错误')
+
+			}else{
+				$.ajax({
+					type:'post',
+					url:WSURL+'/webservice/mod.asp',
+					data:$('#mod_form').serialize(),
+					success:function(text){
+						var a=text.split('|')
+						if(a[0]){
+							layer.msg(a[1], {anim:5, isOutAnim:false})
+							if(a[0]=='success'){
+								layer.close(index)
+							}
+						}
+					}
+				})
+			}
+		}
+	})
+}
+doc.logout=function(){
+	window.localStorage.removeItem("sfLoginInfo")
+	window.localStorage.removeItem("sfLoginDate")
+	window.location.reload()
+}
+
+var SURL='http://svg.ssjjss.com'
+if(/wide.aa6666.com/.test(window.location.hostname)){
+	SURL=''
+}
+var WSURL='http://user.ssjjss.com'
+
+if(window.location.pathname!='/login/'){
+	if(/\/tools\//.test(window.location.pathname)){
+		document.write('<style>#logo{opacity:0} #logo img{width:212px;background:url(http://gold.ssjjss.com/images/logo.gif) no-repeat} #nav b,#nav span{display:none}</style>')
+		window.addEventListener('DOMContentLoaded', function(){
+			$('#logo').css('opacity','1').find('a').attr('href','http://gold.ssjjss.com').find('img').attr('src','/images/spacer.gif')
+			$('#nav a:not([onclick])').hide()
+		})
+	}else{
+		doc.loginchk()
+	}
+}
+
+// not IE or IE<5: ie===undefined
+// if(IE && IE>=8), ie===6
+// use: baike_calligrapher
+var IE = (function(){
+    var undef,
+        v = 3,
+        div = document.createElement('div'),
+        all = div.getElementsByTagName('i');
+    while (
+        div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
+        all[0]
+    );
+    return v > 4 ? v : undef;
+}());
+
+//nwjs-v0.12.3 Chrome/41.0.2272.76
+//var NW
+//try{NW=!!require('nw.gui') }catch(e){}
+
+//true: chrome ver <=45
+var C45=(function(){
+	var u=navigator.userAgent
+	var a=u.match(/Chrome\/([\d]+)\./)
+	return a?!(a[1]*1>45):false;
+}());
+
+var Electron
+try{Electron=window.process.versions['electron']}catch(e){}
+var electronKeyboard=false  //v1.1
+
+HD = window.devicePixelRatio
+HD = HD && HD>1
+
+if(window.VBArray){
+	window.onerror=function(msg,url,line){
+		if(/(svg.js)$/.test(url)){
+			return true
+		}
+	}
+}

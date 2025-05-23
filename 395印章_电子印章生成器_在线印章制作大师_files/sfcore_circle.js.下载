@@ -1,0 +1,1061 @@
+﻿var sfcore={}
+sfcore.svgloaded=false
+sfcore.renderSWF=false
+sfcore.isIE=doc.isIE
+sfcore.isRedraw=false
+sfcore.cpicker
+sfcore.sSrcCharA
+sfcore.sSrcCharB
+sfcore.sSrcCharC
+sfcore.aCharCode=[]
+sfcore.oSvgData={}
+
+sfcore.unit
+sfcore.ascent
+
+sfcore.DF_CHAR_A="南无阿弥陀佛电子\u5370章制作平台" //"广州市叁玖伍\u5370章艺术有限公司"
+sfcore.DF_CHAR_B="慈善专用章" //"财务专用章"
+sfcore.DF_CHAR_C="618033988749894848"
+sfcore.DF_FONT="长城大标宋体"
+sfcore.DF_GBK='方正小标宋_GBK'
+sfcore.DF_TEMPLATE="1024-820"
+sfcore.DF_SIZE="160"
+sfcore.windowWidth
+sfcore.exportFileName
+
+sfcore.trim=function(s){
+	return String(s).replace(/(^[\s\u3000]*)|([\s\u3000]*$)/g, "");
+}
+sfcore.charOffset=function(s,n){
+	var r='';
+	for(var i=0; i<s.length; i++){
+		var c=s.substr(i,1).charCodeAt(0);
+		r+=String.fromCharCode(c+n);
+	}
+	return r;
+}
+sfcore.getOFontVal=function(key){
+	for(var i in this.oFont){
+		for(var j in this.oFont[i]){
+			if(j==key){
+				return this.oFont[i][j]
+			}
+	    }
+	}
+}
+//sfcore.rgb2hex("rgb(255,255,255)") => "#FFFFFF"
+sfcore.rgb2hex = function(sRgb){
+	if(!sRgb.match(/^rgb/i)){return sRgb}
+
+	var rgb = sRgb.split(',')
+	var r = parseInt(rgb[0].split('(')[1])
+	var g = parseInt(rgb[1])
+	var b = parseInt(rgb[2].split(')')[0])
+
+	var hex = '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
+	return hex
+}
+sfcore.transZH=function(t,s){
+	if(t=='j2f'){
+		s=$.s2t(s)
+	}else{
+		s=$.t2s(s)
+	}
+	return s;
+}
+sfcore.initFontTree=function(){
+	$('#sftree').html('<ul></ul>')
+	var n=0
+	for(var i in this.oFont){
+		n++
+		setTimeout('sfcore.addFontTree("'+i+'")',n*20)
+		break;
+	}
+}
+sfcore.addFontTree=function(i){
+	var k=0
+	var f=$('#font').val()
+	//var s='<li style="display:none">'
+	var s='<li>'
+	for(var j in this.oFont[i]){
+		s+='<a href="javascript:sfcore.onFontTreeClick(\''+j+'\')" '+(f==j?'class=tick':'')+'>'+j+'</a>'
+		k++
+		//if(k%6==0) s+='<br />'
+		if(k%6==0) s+='<br /></li><li>'
+	}
+	if(k%6){
+		k=6-k%6
+		while(k>=0){s+='<br />';k--}
+	}
+	s+='</li>'
+	$('#sftree ul').append(s)
+	//$('#sftree li:last').show()
+	//$('#sftree li:last a')
+	$('#sftree li a')
+		.mouseover(
+			function(e){
+				$("#fontpre")
+					.css("left",$(this).offset().left+$(this).width()+12+"px")
+					.css("top",e.pageY-15+"px")
+				$("#fontpre div").html('<img height=56 src="'+SURL+'/thumbnail/png_sky'+(HD?'/png2x/':'/png/')+$(this).text()+'.png" />')
+			}
+		)
+		.mouseout(function(){
+				$("#fontpre").css("top","-100px")
+		})
+		.mousemove(function(e){
+				var fx=$("#fontpre").offset().left
+				if(fx>e.pageX){
+					var fw=$("#fontpre").width()
+					if(fx+fw>sfcore.windowWidth){
+						$("#fontpre").css("left",$(this).offset().left-fw-12+"px")
+					}
+				}
+				$("#fontpre").css("top",e.pageY-15+"px")
+		})
+}
+//#jqmSF_window
+sfcore.initSearchFont=function(){
+	var s=''
+	s+='<select size="14" id="jqmSF_select">'
+	for(var i in this.oFont){
+		s+='<option value="'+i+'">'+i+'</option>'
+	}
+	s+='</select>'
+	$('#jqmSF_catalist').html(s)
+	$('#jqmSF_select')[0].selectedIndex=0
+	$('#jqmSF_select').change(function(){
+		var s='',obj=sfcore.oFont[this.options[this.selectedIndex].value]
+		for(var i in obj){
+			s+='<li><a href="javascript:sfcore.onFontlibSelect(\''+i+'\')">'+i+'</a></li>'
+		}
+		s='<ul>'+s+'</ul>'
+		//s='<div style="width:100%;height:'+$(this).outerHeight()+'px;overflow:auto;">'+s+'</div>'
+		s='<div style="width:100%;height:'+$('#jqmSF_cataview').height()+'px;overflow:auto;">'+s+'</div>'	//mobi
+		$('#jqmSF_cataview').html(s)
+		$('#jqmSF_stat').html(this.options[this.selectedIndex].text+'：共'+$('#jqmSF_cataview a').length+'个')
+		$('#jqmSF_cataview a')
+			.mouseover(
+				function(e){
+					$("#fontpre")
+						.css("left",$(this).offset().left+176+"px")
+						.css("top",e.pageY-15+"px")
+					$("#fontpre div").html('<img height=56 src="'+SURL+'/thumbnail/png_sky'+(HD?'/png2x/':'/png/')+$(this).text()+'.png" />')
+				}
+			)
+			.mouseout(function(){
+					$("#fontpre").css("top","-100px")
+			})
+			.mousemove(function(e){
+					$("#fontpre").css("top",e.pageY-15+"px")
+			})
+	}).change()
+
+	$('#jqmSF_catabtn').click(function(){
+		$('#jqmSF_findview').html('')
+		$('#jqmSF_find').hide()
+		$('#jqmSF_cata').show()
+		$('#jqmSF_stat').html('')
+	})
+
+	$('#jqmSF_findbtn').click(function(){
+		//var h=$('#jqmSF_select').outerHeight()
+		var h=$('#jqmSF_cataview').height()		//mobi
+		//$('#jqmSF_cataview').html('')
+		$('#jqmSF_cata').hide()
+		$('#jqmSF_find').show()
+		var k=sfcore.trim($('#jqmSF_findkw').val())
+		var s='',d=sfcore.oFont,u={}
+		if(k){
+			for(var i in d){
+				for(var j in d[i]){
+					if(j.indexOf(k)!=-1){
+						if(!u[j]){
+							s+='<li><a href="javascript:sfcore.onFontlibSelect(\''+j+'\')">'+j+'</a></li>'
+						}
+						u[j]=1
+					}
+				}
+			}
+		}
+		s='<ul>'+s+'</ul>'
+		var d=$('#jqmSF_findview > div')
+		if(d.length>0){
+			d.html(s)
+		}else{
+			s='<div style="width:100%;height:'+h+'px;overflow:auto;">'+s+'</div>'
+			$('#jqmSF_findview').html(s)
+		}
+		$('#jqmSF_stat').html('找到 '+$('#jqmSF_findview a').length+' 个字体')
+		$('#jqmSF_findview a')
+			.mouseover(function(e){
+					$("#fontpre")
+						.css("left",$(this).offset().left+176+"px")
+						.css("top",e.pageY-15+"px")
+					$("#fontpre div").html('<img height=56 src="'+SURL+'/thumbnail/png_sky'+(HD?'/png2x/':'/png/')+$(this).text()+'.png" />')
+				}
+			)
+			.mouseout(function(){
+					$("#fontpre").css("top","-100px")
+			})
+			.mousemove(function(e){
+					$("#fontpre").css("top",e.pageY-15+"px")
+			})
+	})
+
+	$('#jqmSF_frm').submit(function(){
+		$('#jqmSF_findbtn').click()
+		return false;
+	})
+
+}
+
+sfcore.initSelectFont=function(s){
+	for(var i in this.oFont){
+		for(var j in this.oFont[i]){
+			if(j==s){
+				$('#jqmSF_select').val(i).change()
+				$('#jqmSF_content ul a').removeClass('st')
+				var top=$('#jqmSF_content ul a:contains("'+s+'")')
+					.filter(function(){ if($(this).text()==j){return $(this)} })
+					.addClass('st').offset().top
+				var div=$('#jqmSF_content ul').parent()
+				div.scrollTop(top-div.offset().top)
+				return true
+			}
+	    }
+	}
+	return false
+}
+sfcore.onFontlibSelect=function(s){
+	$("#fontpre").css("top","-100px")	//mobi
+	$("#font").val(s)
+	$("#template").val(this.getOFontVal(s))
+	$('#jqmSF_content ul a').removeClass('st')
+	$('#jqmSF_content ul a:contains("'+s+'")').filter(function(){ if($(this).text()==s){return $(this)} }).addClass('st')
+	$('#jqmSF_window').jqmHide();
+}
+sfcore.onFontTreeClick=function(s){
+	this.onFontlibSelect(s)
+	$("#submit").click()
+}
+sfcore.fSetSize=function(num) {
+	$("#sfcon > object").css("width",num+"px").css("height",num+"px")
+	$("#rotation").change()	//refresh svg; include exportImg
+	//this.exportImg()
+}
+sfcore.fSetRotation=function(num){
+	var g=$("#sfcon > object")[0].contentDocument.getElementsByTagNameNS(svgns, 'g')[0]
+	g.setAttribute('transform','rotate('+num+',80,80)')
+	this.exportImg()
+}
+sfcore.fSetSign=function(str){
+	var r=$('#p_svgweb')[0].contentDocument
+	r.getElementById('signstar').setAttribute('display','none')
+	r.getElementById('signparty').setAttribute('display','none')
+
+	if(str!='none'){
+		r.getElementById('sign'+str).setAttribute('display','inline')
+		$('#signscalecon').show()
+	}else{
+		$('#signscalecon').hide()
+	}
+	sfcore.exportImg()
+}
+sfcore.fSetSignscale=function(num){
+	var g=$('#p_svgweb')[0].contentDocument.getElementById('centersign')
+	var scale=num/100
+	g.setAttribute('transform','translate('+80*(1-scale)+','+80*(1-scale)+') scale('+scale+','+scale+')')
+	this.exportImg()
+}
+sfcore.fSetForealpha=function(num){
+	var g=$("#sfcon > object")[0].contentDocument.getElementsByTagNameNS(svgns, 'g')[0]
+	g.setAttribute('fill-opacity',num/100)
+	this.exportImg()
+}
+sfcore.fSetColor=function(name,clr) {
+	if(name=="forecolor"){
+		if(this.svgloaded){
+			var root=$("#sfcon > object")[0].contentDocument
+			var fill=function(a){
+				for(var i=0; i<a.length; i++){ a[i].setAttribute('fill',clr) }
+			}
+			fill(root.getElementsByTagNameNS(svgns, 'polygon'))
+			fill(root.getElementsByTagNameNS(svgns, 'path'))
+		}
+	}
+	this.exportImg()
+}
+sfcore.redraw=function(){
+	if(this.isH5 && this.isRedraw){
+		if($('#effect').val()*1>-1){
+			$('#p_svgweb').before($('#p_canvas'))
+			$('#p_svgweb').css('visibility','hidden')
+			$('#p_canvas').css('visibility','visible')
+
+			var svgAData=this.merge().replace(/<g><rect.*?<\/g>/,'')
+			var pe=$("#p_canvas")[0]
+			var s2c=canvg.Canvg.fromString(pe.getContext('2d'), svgAData);
+				s2c.start();
+
+			pe.onclick=null
+			pe.onmousemove=null
+			this.redrawCore($('#p_canvas')[0])
+
+		}else{
+			$('#p_svgweb').after($('#p_canvas'))
+			$('#p_svgweb').css('visibility','visible')
+			$('#p_canvas').css('visibility','hidden')
+		}
+	}
+}
+sfcore.redrawCore=function(pe){
+
+	var en=$('#effect').val()*1
+	if(en>0){
+		var img=new Image()
+		img.src='/images/texture/'+en+'.jpg'
+		img.onload=function(){
+			//var pe=$('#p_canvas')[0]
+			var cxt=pe.getContext('2d')
+			var cw=pe.width
+			var ch=pe.height
+
+			var pdata=cxt.getImageData(0, 0, cw, ch)
+			cxt.clearRect(0, 0, cw, ch);
+			cxt.drawImage(img, 0, 0, cw, ch)
+			var tdata=cxt.getImageData(0, 0, cw, ch)
+
+			var pdata_length = pdata.data.length / 4
+			for (var i = 0; i<pdata_length; i++){
+				pdata.data[i*4] = 255 - (255 - tdata.data[i*4]) * (255 - pdata.data[i*4]) / 255
+				pdata.data[i*4+1] = 255 - (255 - tdata.data[i*4+1]) * (255 - pdata.data[i*4+1]) / 255
+				pdata.data[i*4+2] = 255 - (255 - tdata.data[i*4+2]) * (255 - pdata.data[i*4+2]) / 255
+			}
+			cxt.putImageData(pdata, 0, 0)
+		}
+	}
+}
+
+sfcore.JFzhInit=function(s){
+	var ck=window.localStorage.getItem("sfJFzh")
+	if(ck!=null){
+		if(ck=='f'){
+			$(s).s2t();
+			$('a.jfzh').text('简体版')
+		}
+	}
+}
+
+sfcore.exportImg=function(){
+	this.redraw()
+
+	var swfgte10=(deconcept.SWFObjectUtil.getPlayerVersion()["major"]>=10)
+	if($("#sfexp #expbtn").length==0){	//IE9 Bug
+
+		var rw=function(swfMode){
+			//var s='<a href="javascript:void(0)" id="expbtn"><img src=/images/expbtn.gif /></a>'
+			var s='<input type="button" value="保存整体图片..." id="expbtn" style="width:150px;margin-bottom:10px;" />'
+			if(swfMode){
+				s+="<br />可存svg, png, jpg"
+			}else{
+				if(swfgte10){
+					s+='<br /><a href="javascript:void(0)" target=_self id=spare_btn>备用保存方式</a>'
+				}
+				s+="<br />可存svg, png, pdf"
+			}
+			s+="<br />适用Ai,Ps等软件　<a href=http://www.shufami.com/help.html target=_blank>帮助</a>"
+			$("#sfexp").html(s)
+			$("#expbtn").click(function(){
+				sfcore.exportImgCore(swfMode)
+			})
+			try{	//IE9 Bug
+				$("#spare_btn").click(function(){
+					sfcore.exportImgCore(true)
+				})
+			}catch(e){}
+		}
+
+		if(this.isH5){
+			rw()
+		}else if(swfgte10){
+			rw(true)
+		}else{
+			var s="<a href=http://www.r12345.com/rzbrowser/ target=_blank>下载仁者浏览器<u></u></a>"
+			s+="<br />可以支持矢量svg和"
+			s+="<br />透明png保存功能"
+			$("#sfexp").html(s)
+		}
+		sfcore.JFzhInit('#sfexp')
+	}
+}
+sfcore.exportImgCore=function(swfMode){
+	var chr=this.sSrcCharA.replace(/[^\u4E00-\u9FA5\w]+/ig,"")||this.DF_CHAR_A
+	if(swfMode){
+		var fvbtn={
+			"font":"arial",
+			"size":"12",
+			"color":"0x000000",
+			"jpglabel":"保存网络JPG",
+			"svglabel":"保存矢量SVG",
+			"pnglabel":"保存无损PNG",
+			"apnglabel":"保存透明PNG"
+		}
+		var fvdat={
+			"char":chr,
+			"data":this.merge().replace(/></g,">\r\n<")
+		}
+		var so = new SWFObject("/common/ax/export.gif", "expswf", "110", (22+6)*4, "10", "#ffffff");
+		so.addParam("wmode","transparent");
+		so.addVariable("fvbtn",encodeURI(JSON.stringify(fvbtn)));
+		so.addVariable("fvdat",encodeURI(JSON.stringify(fvdat)));
+		so.write("sfexp");
+	}else{
+		this.exportFileName=chr+"_redmi.work"
+		var s="<IFRAME name=h5export src=/h5export.html?v=20230618 width=136 height=112 border=0 frameSpacing=0 frameBorder=0 marginWidth=0 marginHeight=0 noResize scrolling=no nwdisable></IFRAME>"
+		$("#sfexp").html(s)
+	}
+}
+sfcore.merge=function(){
+	var s,root,size,scale
+	root=$('#p_svgweb')[0].contentDocument
+	size=$('#size').val()
+	scale=size/160
+	if(sfcore.renderSWF){
+		s=root._xml.xml
+		s=s.replace(/xmlns="urn:__fake__internal__namespace" xmlns:xlink="http:\/\/www.w3.org\/1999\/xlink" /g,'')
+	}else{
+		s=new XMLSerializer().serializeToString(root)
+	}
+	var rotate=s.match(/[\s\S]*?transform="rotate\((.*?)\)"/)[1]
+	var opacity=s.match(/[\s\S]*?fill-opacity="(.*?)"/)[1]
+	s=s.replace(/[\s\S]*?transform=.*?>/,'<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'"><g transform="scale('+scale+','+scale+') rotate('+rotate+')" fill-opacity="'+opacity+'">')
+	return s
+}
+sfcore.initJQM=function(){
+	//rlayout
+	var y=($(window).height()-366)/2
+	var x, ww=$(window).width(), jw=$('#jqmSF_window').width()
+	if(ww<jw){
+		$('#jqmSF_content>table').width(330)
+		x=-ww/2
+	}else{
+		x=-jw/2
+	}
+	$('#jqmSF_window')
+		.css('top',y>150?150:y+'px')
+		.css('margin-left',x+'px')
+		.jqm()	//jqm({trigger:"#jqmSF_show"});
+
+	$("#jqmSF_cata").show()
+
+	var a=sfcore.getTemplateArray()
+	var s=''
+	s+='<ul style="padding:12px 0 12px 12px;">'
+	for(var i=0;i<a.length;i++){
+		s+='<li><a href='+a[i][1]+' target=_blank><img height=80 data-src=/images/template/'+a[i][0]+'.png></a></li>'
+	}
+	s+='</ul>'
+	s='<div style="min-width:330px;max-width:512px;height:331px;overflow:auto;background-color:#eeeeee;">'+s+'</div>'
+	$("#jqmUB_content").html(s).find('li').css({'display':'inline-block','padding':'0 12px 12px 0'})
+	$("#jqmUB_window")
+		.css("top",y>150?150:y+"px")
+		.css("margin-left",x+"px")
+		.jqm({trigger:"#jqmUB_show"});
+	$('#jqmUB_show').click(function(){
+		$('#jqmUB_content').find('img').each(function(){
+			this.src=$(this).data('src')
+		})
+	})
+	$('#jqmUB_window .jqmClose:contains("确定")')
+		.html('&nbsp;关闭&nbsp;').css('margin-left',10)
+		.before('<button class="aui_state_highlight" id="more_template_btn">更多模板</button>')
+	$('#more_template_btn').click(function(){
+		window.open('/templet/')
+	})
+}
+sfcore.getFSNum=function(a,b){
+	var n=$('#fontsize').val()-16
+	n=a-Math.round((a-b)/(28-16)*n)
+	return n
+}
+sfcore.initSfbar=function(){
+
+	$('#verlite').prop('checked', !!$.query.get('verlite') )
+	$('#verlite').click(this.verliteSwap)
+
+	$('#valign').prop('checked', !!$.query.get('valign') )
+	$('#valign').click(this.valignSwap)
+
+	$('#zoomin').prop('checked', !!$.query.get('zoomin') )
+	$('#zoomin').click(this.zoominSwap)
+
+	var osp=$.query.get('offset')
+	var osn=osp
+	if(osp===''){osn=-1}
+	$('#offset').val(osn)
+	osn*=-1
+
+	var chkCharLen=function(s,n){
+		if(s.length>n){s=s.substring(0,n)}
+		return s
+	}
+	$('#fontsize').val( $.query.get("fontsize")||24 )
+
+	var ca,cb,cc
+	ca=$.query.get("chara")
+	cb=$.query.get("charb")
+
+	//cc=$.query.get("charc")	//纯数字≥17位时有bug
+	var us=window.location.search
+	if(us.indexOf('charc=&')>0){
+		cc=true
+	}else{
+		cc=strGetUrlArg(us,'charc','')
+	}
+
+	can=sfcore.getFSNum(25,12)	//12-25,make
+	cbn=sfcore.getFSNum(10,5)	//5-10
+	ccn=20
+
+	if(ca==true){	//url: ?chara=&
+		this.sSrcCharA=''
+	}else if(ca==''){	//url: none
+		this.sSrcCharA=chkCharLen(this.DF_CHAR_A, can)
+	}else{	//url: ?chara=abc&
+		if(osp!==''){ca=sfcore.charOffset(ca,osn)}
+		this.sSrcCharA=chkCharLen(String(ca), can)
+	}
+
+	if(cb==true){
+		this.sSrcCharB=''
+	}else if(cb==''){
+		this.sSrcCharB=chkCharLen(this.DF_CHAR_B, cbn)
+	}else{
+		if(osp!==''){cb=sfcore.charOffset(cb,osn)}
+		this.sSrcCharB=chkCharLen(String(cb), cbn)
+	}
+
+	if(cc===true){
+		this.sSrcCharC=''
+	}else if(cc==''){
+		this.sSrcCharC=this.DF_CHAR_C
+	}else{
+		if(osp!==''){cc=sfcore.charOffset(cc,osn)}
+		this.sSrcCharC=chkCharLen(String(cc), ccn)
+	}
+
+	$("#chara").val( this.sSrcCharA )
+	$("#charb").val( this.sSrcCharB )
+	$("#charc").val( this.sSrcCharC )
+
+	$("#charaspacing").val( $.query.get("charaspacing")||10 )
+
+	$("#font")
+		.val( $.query.get("font")||this.DF_FONT )
+		.click(function(){
+			$("#jqmSF_window").jqmShow();
+			if(!$('#jqmSF_content ul a.st').length){
+				sfcore.initSelectFont(this.value)
+			}
+		})
+
+	var s=$.query.get("template")||this.DF_TEMPLATE
+	$("#template").val(s)
+	var a=s.split("-")
+	this.unit=a[0]*1
+	this.ascent=-a[1]*1
+
+	$("#trans_f2j,#trans_j2f").click(function(){
+		var sa=sfcore.transZH(this.id.split("_")[1],$("#chara").val())
+		var sb=sfcore.transZH(this.id.split("_")[1],$("#charb").val())
+		$("#chara").val(sa)
+		$("#charb").val(sb)
+	})
+
+	$("#fontheight").val( $.query.get("fontheight")||155 )
+	$("#size").val( $.query.get("size")||this.DF_SIZE )
+	.change(function(){
+		sfcore.fSetSize($(this).val())
+	})
+	$("#borderwidth").val( $.query.get("borderwidth")||8 )
+	$("#padding").val( $.query.get("padding")||3 )
+	$("#rotation").val( $.query.get("rotation")||0 )
+	.change(function(){
+		sfcore.fSetRotation($(this).val())
+	})
+
+	$("#forecolor").val($.query.get("forecolor")||"#FF0100")
+
+	$('#ring').prop('checked', !!$.query.get('ring') )
+	$('#ring').click(this.ringSwap)
+
+	$("#sign").val($.query.get('sign')||'star')
+	.change(function(){
+		sfcore.fSetSign($(this).val())
+	})
+	$("#signscale").val( $.query.get("signscale")||$.query.get("starscale")||100 )	//兼容旧版starscale参数
+	.change(function(){
+		sfcore.fSetSignscale($(this).val())
+	})
+
+	$('#backalpha').prop('checked', !!$.query.get('backalpha') || !!$.query.get('alpha') )	//兼容旧版alpha参数
+	$('#backalpha').click(this.backalphaSwap)
+
+	var en=$.query.get('effect')
+	$("#effect").val(en===0?0:(en||'none') )
+	.change(function(){
+		sfcore.exportImg()
+	})
+
+	$("#forealpha").val( $.query.get("forealpha")||100 )
+	.change(function(){
+		sfcore.fSetForealpha($(this).val())
+	})
+
+	if(window.location.search){
+		$('#submit').off('mouseenter mouseleave')	//del hover
+	}else{
+		$('#submit').hover(
+			function(){
+				$('#ver-pro').addClass('btn-light')
+			},
+			function(){
+				$('#ver-pro').removeClass('btn-light')
+			}
+		)
+	}
+
+	$('#frm').submit(function(){
+		if( $('#font').val()==sfcore.DF_FONT && !sfcore.inGB2312($('#chara').val()) ){
+			var f=sfcore.DF_GBK
+			$('#font').val(f)
+			$("#template").val(sfcore.getOFontVal(f))
+		}
+		var chkCharInput=function(t,s,n){
+			if(s.length>n){
+				alert('【'+t+'】只能显示（'+s.substring(0,n)+'），请缩小【字号】')
+				return false
+			}else{
+				return true
+			}
+		}
+		var flag=(
+			chkCharInput('公司',$('#chara').val(), sfcore.getFSNum(25,12))
+			&&
+			chkCharInput('章名',$('#charb').val(), sfcore.getFSNum(10,5))
+		)
+		//return flag
+		if(flag){
+			var n=$('#offset').val()*1
+			var ca=$('#chara').val()
+			var cb=$('#charb').val()
+			var cc=$('#charc').val()
+			$('#chara').val(sfcore.charOffset(ca,n))
+			$('#charb').val(sfcore.charOffset(cb,n))
+			$('#charc').val(sfcore.charOffset(cc,n))
+			var u=$(this).serialize()
+			sfcore.frmSubmit=function(){
+				$('#chara').val(ca)
+				$('#charb').val(cb)
+				$('#charc').val(cc)
+				window.location=window.location.pathname+'?'+u+window.location.hash
+			}
+			setTimeout('sfcore.frmSubmit()',1)
+		}
+	})
+
+	//linetips
+}
+sfcore.verliteSwap=function(){
+	if($('#verlite').prop('checked')){
+		$('.verprem').hide()
+	}else{
+		$('.verprem').show()
+	}
+}
+sfcore.valignSwap=function(){
+	if($('#valign').prop('checked')){
+		$('#frm i').html('<br>')
+	}else{
+		$('#frm i').html('&#12288;')
+	}
+}
+sfcore.zoominSwap=function(){
+	if($('#zoomin').prop('checked')){
+		$('#frm *').css({'font-size':'16px'})
+		$('#frm').css({'line-height':'36px'})
+	}else{
+		$('#frm *').css({'font-size':'14px'})
+		$('#frm').css({'line-height':'32px'})
+	}
+}
+sfcore.initNoad=function(){
+	this.noad = !!$.query.get('noad') || !!window.localStorage.getItem('sfnoad')
+	$('#noad').prop('checked',this.noad)
+	$('#noad').click(function(){
+		sfcore.noad=$(this).prop('checked')
+		window.localStorage.setItem('sfnoad', sfcore.noad?'on':'')
+	})
+	if(window.location.hostname=='sign.biaozhiku.com'){
+		sfcore.DF_SIZE*=1.5
+	}
+}
+sfcore.ringSwap=function(){
+	var gr=$('#p_svgweb')[0].contentDocument
+	var gb=gr.getElementById('ringback')		//inside tag path fill color
+	var gf=gr.getElementById('ringfore')
+	if($('#ring').prop('checked')){
+		//gb.setAttribute('style','fill-opacity:0')
+		gb.setAttribute('display','none')
+		gf.setAttribute('display','inline')
+	}else{
+		//gb.setAttribute('style','fill-opacity:1')
+		gb.setAttribute('display','inline')
+		gf.setAttribute('display','none')
+	}
+	sfcore.exportImg()
+}
+sfcore.ringInit=function(){
+	sfcore.ringSwap()
+	var g=$('#p_svgweb')[0].contentDocument.getElementById('ringfore')
+	var num=0
+	var s=$("#chara").val()+$("#charb").val()
+	for(var i=0; i<s.length; i++){
+		num+=s.charCodeAt(i)
+	}
+	num%=360
+	g.setAttribute('transform','rotate('+num+',80,80)')
+}
+sfcore.backalphaSwap=function(){
+	var tag=$('#p_svgweb')[0].contentDocument.getElementsByTagNameNS(svgns, 'circle')[0]
+	if($('#backalpha').prop('checked')){
+		//tag.setAttribute('style','fill-opacity:0')
+		tag.setAttribute('display','none')
+	}else{
+		//tag.setAttribute('style','fill-opacity:1')
+		tag.setAttribute('display','inline')
+	}
+	sfcore.exportImg()
+}
+
+sfcore.initSfcon=function(){
+
+	window.addEventListener('SVGLoad',function(){
+
+		$('#sfcon1').css('padding','0px')
+		var con=$('#sfcon')
+		con.css('background','transparent')
+
+		var obj = document.createElement('object', true)
+		obj.setAttribute('type', 'image/svg+xml')
+		obj.setAttribute('id', 'p_svgweb')
+		obj.setAttribute('data', '/common/shape/circle-1-'+$('#borderwidth').val()+'.svg')
+		obj.setAttribute('width', 160)
+		obj.setAttribute('height', 160)
+		obj.addEventListener('SVGLoad', function(){
+			sfcore.getdat()
+		}, false)
+		svgweb.appendChild(obj, con[0])
+
+	},false)
+}
+
+sfcore.getdat=function() {
+
+	if(this.isH5){
+		$('#sfcon').prepend('<canvas id=p_canvas></canvas>')
+	}
+
+	var a= (this.sSrcCharA+this.sSrcCharB+this.sSrcCharC).split("")
+	for (var i=0; i<a.length; i++) {
+		this.aCharCode.push( a[i].charCodeAt(0) )
+	}
+
+	var unique=function(b){
+		var a={};
+		for(var i=0;i<b.length;i++){
+			if(!a[b[i]] && b[i]!="") a[b[i]]=1;
+		}
+		var c=[]
+		for(var i in a) c[c.length]=i;
+		return c;
+	}
+	var ac=unique(this.aCharCode)
+	for(var i in ac){
+		this.oSvgData[ac[i]]=ac[i]+","+sfcore.unit/ (/[\x00-\xff]/g.test(String.fromCharCode(ac[i]))?2:1)+","	// unit 除法运算
+	}
+
+	var af=[],f=$("#font").val()
+	for (var i=0;i<f.length; i++) {
+		af.push(f.charCodeAt(i))
+	}
+	if(ac.length==0){
+		$("#loader").remove()
+		return
+	}
+
+	var sfunc=function(s){
+		if(s!="NULL"){
+			var a=s.split("|"),b
+			for(var i in a){
+				b=a[i].split(",")
+				sfcore.oSvgData[b[0]]=a[i]
+			}
+		}
+		sfcore.drawSeal()
+	}
+
+	if(f==sfcore.DF_FONT && sfcore.sSrcCharA==sfcore.DF_CHAR_A && sfcore.sSrcCharB==sfcore.DF_CHAR_B && sfcore.sSrcCharC==sfcore.DF_CHAR_C && sfcore.DF_CHAR_C.indexOf('395NET')==-1){
+		$.ajax({
+			url:SURL+'/common/initdata_circle-1.txt',
+			success: sfunc
+		})
+	}else{
+		$.ajax({
+			type:'POST',
+			url:SURL+'/datafile/glyph/',
+			data:'ver=20231231&f='+af.join('-')+'&c='+ac.join('-'),
+			success: sfunc
+		})
+	}
+}
+
+sfcore.drawSeal=function(){
+
+	var root=$('#p_svgweb')[0].contentDocument.getElementsByTagNameNS(svgns, 'svg')[0]
+	root=root.getElementsByTagNameNS(svgns, 'g')[0]
+
+	var fHeight=$("#fontheight").val()
+	var fwscale=.65
+	var fhscale=fHeight/100*fwscale
+
+	var size,scale
+		size=sfcore.getFSNum(16,28)		//28-16,make,CharA
+		scale=size/sfcore.unit
+
+	if(sfcore.sSrcCharA!=''){
+		var g = document.createElementNS(svgns, 'g')
+		root.appendChild(g);
+		var root2=g
+
+		var a=sfcore.sSrcCharA.split('')
+		var g1,g2,g3,path,sd,un,angle,cSpacing,padding,can,angleMin,angleMax,angleTotal,angleStep,angleTFix
+
+		can=sfcore.getFSNum(25,12)
+		cSpacing=$('#charaspacing').val()
+		angleMin=240/can*a.length
+		angleMax=240
+		angleTotal=angleMin+(angleMax-angleMin)/10*cSpacing
+
+		angleTFix=Math.round((1-160/fHeight)*60)
+		angleTFix=(1-cSpacing/10)*angleTFix
+		angleTotal+=angleTFix
+
+		angleStep=angleTotal/(a.length-1)
+		padding=$('#padding').val()
+		for (var i=0; i<a.length; i++) {
+			g1 = document.createElementNS(svgns, 'g')
+			g2 = document.createElementNS(svgns, 'g')
+			g3 = document.createElementNS(svgns, 'g')
+			path = document.createElementNS(svgns, 'path');
+			un=a[i].charCodeAt(0)
+			sd=sfcore.oSvgData[un].split(",")
+			path.setAttribute('d',sd[2] );
+			path.setAttribute('fill', '#FF0100');
+			g1.appendChild(path);
+			g1.setAttribute('transform','scale(1,-1) translate(0,'+sfcore.ascent+')')
+			g2.appendChild(g1);
+			g2.setAttribute('transform','translate('+( 80 - sfcore.unit*scale*fwscale/(un>128?2:4) )+','+(8+(padding-3))+') scale('+scale*fwscale+','+scale*fhscale+')')
+			g3.appendChild(g2);
+			g3.setAttribute('transform','rotate('+(a.length>1 ? (i*angleStep-angleTotal/2) : 0)+',80,80)')
+			root2.appendChild(g3);
+		}
+	}
+
+	if(sfcore.sSrcCharB!=''){
+		var g = document.createElementNS(svgns, 'g')
+		root.appendChild(g);
+		var root3=g
+
+		var b=sfcore.sSrcCharB.split('')
+		//var n=sfcore.getFSNum(9,14)	//14-9,make
+		scale=scale*.8
+		var n=sfcore.unit*scale*fwscale
+
+		for (var i=0; i<b.length; i++) {
+			g1 = document.createElementNS(svgns, 'g')
+			g2 = document.createElementNS(svgns, 'g')
+			path = document.createElementNS(svgns, 'path');
+			sd=sfcore.oSvgData[b[i].charCodeAt(0)].split(",")
+			path.setAttribute('d',sd[2] );
+			path.setAttribute('fill', '#FF0100');
+			g1.appendChild(path);
+			g1.setAttribute('transform','scale(1,-1) translate(0,'+sfcore.ascent+')')
+			g2.appendChild(g1);
+			g2.setAttribute('transform','translate('+(80-(b.length/2-i)*n)+','+(sfcore.sSrcCharC? (126-n*fhscale):(131-n*fhscale))+') scale('+scale*fwscale+','+scale*fhscale+')')
+			root3.appendChild(g2);
+		}
+	}
+
+	if(sfcore.sSrcCharC!=''){
+		var g = document.createElementNS(svgns, 'g')
+		root.appendChild(g);
+		var root4=g
+
+		var c=sfcore.sSrcCharC.split('')
+		var g1,g2,g3,path,sd,size,sizeFactor,scale,angleTotal,angleStep,ty
+
+		/*
+		if(c.length==13){
+			size=11
+			ty=16.7
+			angleTotal=75
+		}else if(c.length==15){
+			size=10.5
+			ty=16.35
+			angleTotal=80
+		}else{
+			size=10
+			ty=16
+			angleTotal=90/18*c.length
+		}
+		*/
+
+		sizeFactor=(20-(c.length<13?13:c.length))/(20-13)
+		size=9.6+sizeFactor
+		ty=15.8+sizeFactor*.7
+		if(c.length>=13){
+			angleTotal=93-sizeFactor*(93-75)
+		}else{
+			angleTotal=75/13*c.length
+		}
+
+		scale=size/sfcore.unit
+		angleStep=angleTotal/(c.length-1)
+		for (var i=0; i<c.length; i++) {
+			g1 = document.createElementNS(svgns, 'g')
+			g2 = document.createElementNS(svgns, 'g')
+			g3 = document.createElementNS(svgns, 'g')
+			path = document.createElementNS(svgns, 'path');
+			sd=sfcore.oSvgData[c[i].charCodeAt(0)].split(",")
+			path.setAttribute('d',sd[2] );
+			path.setAttribute('fill', '#FF0100');
+			g1.appendChild(path);
+			g1.setAttribute('transform','scale(1,-1) translate(0,'+sfcore.ascent+')')
+			g2.appendChild(g1);
+			g2.setAttribute('transform','translate('+(80-sd[1]*scale/2)+','+(160-ty)+') scale('+scale+','+scale+')')
+			g3.appendChild(g2);
+			g3.setAttribute('transform','rotate('+(angleTotal/2-i*angleStep)+',80,80)')
+			root4.appendChild(g3);
+		}
+	}
+
+	setTimeout(function(){
+		setTimeout('sfcore.initFontTree()',20)
+
+		sfcore.svgloaded=true
+		$("#sfcon").css("background-image","none")
+		$("#loader").remove()
+
+		sfcore.verliteSwap()
+		sfcore.valignSwap()
+		sfcore.zoominSwap()
+
+		var fc=$("#forecolor")
+		sfcore.fSetColor("forecolor",fc.val())
+		sfcore.cpicker.linkTo(fc).setColor(fc.val())
+
+		//$("#hspace").blur()
+		//$("#vspace").blur()
+		$("#size").change()
+		$("#rotation").change()
+		sfcore.ringInit()
+		$("#sign").change()
+		$("#signscale").change()
+		sfcore.backalphaSwap()
+		$("#forealpha").change()
+		sfcore.isRedraw=true
+		sfcore.redraw()
+
+		//$('#submitSJS').click(function(){})
+
+		//$(window).bind('beforeunload',function(){
+		//	return '您的作品尚未保存，确定离开此页面吗？'
+		//})
+
+		//sfcore.exportImg()
+		//genthumb()
+	},20)
+
+}
+
+sfcore.main=function(){
+	this.isH5=document.createElement('canvas').getContext
+	$(document).ready(function() {
+		sfcore.initSearchFont()
+		sfcore.initJQM()
+		sfcore.initSfbar()
+		sfcore.initSfcon()
+		sfcore.initSelectFont()
+	});
+}
+
+$(document).ready(function() {
+
+	$(window).resize(function(){
+		sfcore.windowWidth=$(window).width()
+	}).resize()
+
+	var farb = $.farbtastic('#picker');
+	var pick = $('#picker');
+	var p_mouseup=function(evt){
+		var mx=evt.pageX,
+			my=evt.pageY,
+			px=pick.offset().left,
+			py=pick.offset().top,
+			pw=pick.width(),
+			ph=pick.height(),
+			tid=evt.target.id,
+			tclr=evt.data.tcolor;
+		if((mx>=px && mx<=px+pw && my>=py && my<=py+ph) || tid=='forecolor'){	// || tid=='backcolor'
+			sfcore.fSetColor(tclr.id, farb.color)
+		}else{
+			pick.hide()
+			$(document).unbind('mouseup',p_mouseup)
+			$(tclr).removeClass('colorwell-selected')//.blur()
+		}
+	}
+	sfcore.cpicker=farb
+	$('.colorwell')
+	.each(function () { farb.linkTo(this); })
+	.focus(function() {
+		farb.linkTo(this);
+		pick.show()
+		var x, f=$(this).offset()
+		var m=sfcore.windowWidth-220
+		x=f.left-70
+		if(x<0){x=0}else if(x>m){x=m}
+		pick.css('left', x+"px");
+		pick.css('top', f.top+26+"px");
+		$(document).unbind('mouseup',p_mouseup)
+		$(document).bind('mouseup', {tcolor:this}, p_mouseup)
+		$(this).addClass('colorwell-selected');
+	})
+	.blur(function(evt){
+		var t,c1,c2
+		t=evt.target
+		c1=t.value
+		c2=$(t).css("background-color")
+		c2=sfcore.rgb2hex(c2)	//chrome
+		if(c1!=c2){
+			t.value=c2
+			farb.setColor(c2)
+		}
+		sfcore.fSetColor(t.id, c2)
+	})
+	pick.prepend('<div id=picker_close><img src=/images/t_ic_close.png /></div>')
+		.find('img').click(function(){
+			pick.hide()
+		})
+});

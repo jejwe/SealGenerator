@@ -1,0 +1,58 @@
+﻿$(function(){
+
+	var nat=$('#nav a:contains("\u5370章模板")')
+	/*if(nat.offset().top<(5+22+5)){
+		nat.append('<i class="mhide" style="position:absolute;"><i style="position:absolute;display:block;width:5px;height:5px;border-radius:50%;top:2px;right:-6px;background:#f00;"></i></i>')
+	}*/
+
+	$('#nav a:contains("书法字体")').before('<a id="job-menu-head" href="http://www.aa6666.com" target="_blank">招聘</a>')
+	$('#nav').before(
+		 '<div id="job-menu-list" class="xpmenu-list">'
+		+'	<ul>'
+		+'		<li><a href="http://job.ssjjss.com" target="_blank" title="中国设计师人才网">设计师人才网</a></li>'
+		+'		<li><a href="http://www.aa6666.com" target="_blank" class="tick" title="中国司机人才网">司机人才网</a></li>'
+		+'		<li><a href="http://www.h12345.com" target="_blank" title="中国护士人才网">护士人才网</a></li>'
+		+'		<li><a href="http://www.dianlilong.com" target="_blank">电力龙招聘网</a></li>'
+		+'	</ul>'
+		+'</div>'
+	)
+
+	$('#job-menu-head').mouseenter(function(){
+			$('#nav').parent().find('.xpmenu-list').hide()
+			$('#job-menu-list').show()
+			.css({ 'top': $(this).offset().top+$(this).height()-$(window).scrollTop(), 'left': $(this).offset().left })
+	})
+
+	$('#job-menu-list').mouseleave(function(){
+			$(this).hide()
+	})
+	.css('width',140)
+
+	$('#nav a:contains("书法字体")').before('<a id="hao-menu-head" href="http://hao.ssjjss.com" target="_blank" title="W3导航">导航</a>')
+	$('#nav').before(
+		 '<div id="hao-menu-list" class="xpmenu-list">'
+		+'	<ul>'
+		+'		<li><a href="http://hao.ssjjss.com" target="_blank">设计师导航</a></li>'
+		+'		<li><a href="http://hao.shufami.com" target="_blank" class="tick">书法迷导航</a></li>'
+		+'		<li><a href="http://hao.3312345.com/#2" target="_blank" title="台山网址导航">常用工具导航</a></li>'
+		+'		<li><a href="http://web.c12345.com/moe/" target="_blank" title="二次元个人主页导航">二次元导航</a></li>'
+		+'		<li><a href="http://do.www3.net.cn" target="_blank" title="干净上网导航">W3导航</a></li>'
+		+'	</ul>'
+		+'</div>'
+	)
+
+	$('#hao-menu-head').mouseenter(function(){
+			$('#nav').parent().find('.xpmenu-list').hide()
+			$('#hao-menu-list').show()
+			.css({ 'top': $(this).offset().top+$(this).height()-$(window).scrollTop(), 'left': $(this).offset().left })
+	})
+
+	$('#hao-menu-list').mouseleave(function(){
+			$(this).hide()
+	})
+	.css('width',140)
+
+	$('body').click(function(){
+		$('#nav').parent().find('.xpmenu-list').hide()
+	})
+})

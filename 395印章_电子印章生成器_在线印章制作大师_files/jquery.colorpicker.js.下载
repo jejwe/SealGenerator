@@ -1,0 +1,108 @@
+/**
+ * jQuery插件：颜色拾取器
+ * 
+ * @author  Karson
+ * @url     http://blog.iplaybus.com
+ * @name    jquery.colorpicker.js
+ * @since   2012-6-4 15:58:41
+ * @modify  samstudio 2022/6/1
+ */
+(function($) {
+	var	ColorHex = new Array('00','33','66','99','CC','FF');
+	var	SpColorHex = new Array('FF0000','00FF00','0000FF','FFFF00','00FFFF','FF00FF');
+
+	$.fn.colorpicker = function(options) {
+		var	opts = jQuery.extend({}, jQuery.fn.colorpicker.defaults, options);
+		initColor();
+
+		return this.each(function()	{
+			var	obj	= $(this);
+			obj.bind(opts.event, function()	{
+				//定位控件
+				var	ttop = $(this).offset().top;
+				var	thei = $(this).height();
+				var	tleft =	$(this).offset().left;
+				var	mw = $(window).width() - $('#colorpanel').width()
+				if (tleft <	0) {
+					tleft =	0
+				} else if (tleft > mw) {
+					tleft =	mw
+				}
+				$('#colorpanel').css({
+					top: ttop +	thei + 5,
+					left: tleft
+				}).show();
+				$('#colorpanbg').show();
+
+				var	target = opts.target ? $(opts.target) :	obj;
+				$('#HexColor').off('keyup mouseup').on('keyup mouseup',	function() {
+					var	color =	this.value;
+					$('#DisColor').css('background', color);
+					if (opts.fillcolor)
+						target.val(color);
+					opts.success(obj, color);
+				}).val(target.val())
+				$('#DisColor').css('background', target.val());
+				$('#CT tr td').unbind('click').mouseover(function()	{
+					var	color =	$(this).css('background-color');
+					$('#DisColor').css('background', color);
+					$('#HexColor').val($(this).attr('rel'));
+				}).click(function()	{
+					var	color =	$(this).attr('rel');
+					if (opts.fillcolor)
+						target.val(color);
+					$('#colorpanel').hide();
+					$('#colorpanbg').hide();
+					opts.success(obj, color);
+				});
+			});
+		});
+
+		function initColor() {
+			if($('#colorpanel').length){return}
+
+			$('body').append('<div id="colorpanbg" style="position: absolute; display: none; width: 100%; height: 100%; top: 0; left: 0;"></div>');
+			$('body').append('<div id="colorpanel" style="position:	absolute; display: none;"></div>');
+			var	colorTable = '';
+			var	colorValue = '';
+			for	(i = 0;	i <	2; i++)	{
+				for	(j = 0;	j <	6; j++)	{
+					colorTable = colorTable	+ '<tr height=12>'
+					colorTable = colorTable	+ '<td width=11	rel="#000000" style="background-color:#000000">'
+					colorValue = i == 0	? ColorHex[j] +	ColorHex[j]	+ ColorHex[j] :	SpColorHex[j];
+					colorTable = colorTable	+ '<td width=11	rel="#'	+ colorValue + '" style="background-color:#' + colorValue +	'">'
+					colorTable = colorTable	+ '<td width=11	rel="#000000" style="background-color:#000000">'
+					for	(k = 0;	k <	3; k++)	{
+						for	(l = 0;	l <	6; l++)	{
+							colorValue = ColorHex[k	+ i	* 3] + ColorHex[l] + ColorHex[j];
+							colorTable = colorTable	+ '<td width=11	rel="#'	+ colorValue + '" style="background-color:#' + colorValue +	'">'
+						}
+					}
+				}
+			}
+			colorTable = '<table width=253 border="0" cellspacing="0" cellpadding="0" style="border:1px	solid #767676;border-bottom:0;">' 
+			+ '<tr height=30><td colspan=21	bgcolor=#E4E2E2>' 
+			+ '<table cellpadding="0" cellspacing="1" border="0" style="border-collapse: collapse">' 
+			+ '<tr><td width="5"><td><input	type="text"	id="DisColor" size="6" disabled	style="border:solid	1px	#000000;background-color:#ffff00;width:5em;"></td>' 
+			+ '<td width="5"><td><input	type="text"	id="HexColor" size="7" style="border:inset 1px;font-family:Arial;width:5em;" value="#000000">' 
+			+ '</td></tr></table></td></table>'	
+			+ '<table id="CT" border="1" cellspacing="0" cellpadding="0" style="border-collapse: collapse" bordercolor="000000"	 style="cursor:pointer;">' 
+			+ colorTable + '</table>';
+			$('#colorpanel').html(colorTable);
+			$('#colorpanbg').on('click', function()	{
+				$('#colorpanel').hide();
+				$('#colorpanbg').hide();
+				return false;
+			})
+		}
+
+	}
+	;
+	jQuery.fn.colorpicker.defaults = {
+		fillcolor: false,      //是否将颜色值填充至对象的val中
+		target:	null,          //目标对象
+		event: 'click',        //颜色框显示的事件
+		success: function()	{} //回调函数
+	};
+}
+)(jQuery);

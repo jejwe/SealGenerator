@@ -1,0 +1,37 @@
+(function($){
+	$.fn.navfix = function(mtop, zindex) {
+		var nav = $(this),
+		body=$('body'),
+		bmtdef=body.css('margin-top').replace(/px/i,'')*1,
+		bmtfix=bmtdef+nav.height(),
+		mtop = mtop,
+		zindex = zindex,
+		dftop = nav.offset().top - $(window).scrollTop(),
+		dfleft = nav.offset().left - $(window).scrollLeft(),
+		dfcss = new Array;
+		dfcss[0] = nav.css("position"),
+		dfcss[1] = nav.css("top").split('px')[0],
+		dfcss[2] = nav.css("left"),
+		dfcss[3] = nav.css("zindex");
+		$(window).scroll(function(e) {
+			var sth=$('.sound-toolbar').height()||0		//wza
+			if($(this).scrollTop()>dftop){
+				nav.css({
+					position: "fixed",
+					top: mtop + sth + "px",
+					left: dfleft,
+					"z-index": zindex
+				})
+				body.css('margin-top',bmtfix + sth)
+			}else{
+				nav.css({
+					position: dfcss[0],
+					top: dfcss[1] + sth,
+					left: dfcss[2],
+					"z-index": dfcss[3]
+				})
+				body.css('margin-top',bmtdef + sth)
+			}
+		})
+	}
+})(jQuery)

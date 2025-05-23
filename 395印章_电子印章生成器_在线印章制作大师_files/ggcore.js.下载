@@ -1,0 +1,220 @@
+﻿var ggcore={}
+
+ggcore.ga=function(){
+	document.write('<script data-ad-client="ca-pub-4186526300894192" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>')
+}
+ggcore.getNum=function(maxNum){
+	//Math.ceil(Math.random()*maxNum)
+	var d1 = new Date()
+	var d2 = new Date(2022,1-1,1)
+	var n = Math.ceil((d1-d2)/(24*60*60*1000))		//get day
+	return n%maxNum+1
+}
+ggcore.adwhile=/(game.ee1234.com|www.395.net.cn|www.517ming.com|web.aa6666.com|hao.h12345.com|seal.skyfont.com|www.ssjjss.com|www.skyfont.com|www.p12345.com)/.test(window.location.hostname)
+ggcore.adable=function(){
+	if(ggcore.adwhile) return true;
+	var adate=window.localStorage.getItem('sfadate')
+	if(adate!=null){
+		if(new Date(adate*1).getMonth()==new Date().getMonth()){
+			return true
+		}
+	}
+	return false
+}
+ggcore.adshow=function(show){
+	if(show){
+		window.localStorage.setItem('sfadate', new Date().getTime())
+	}else{
+		window.localStorage.removeItem('sfadate')
+	}
+	window.location.reload()
+}
+ggcore.m3_336x280_l=function(){
+	/*
+	//|font.ssjjss.com
+	if(/(www.skyfont.com|www.ssjjss.com|font.ssjjss.com|shufa.p12345.com|en.skyfont.com|big.skyfont.com|type.skyfont.com)/.test(window.location.hostname)){
+		document.write('<a href=http://gold.ssjjss.com/download/?refer=ggcore_font target=_blank><img src=http://union.e12345.com/image/m3_336x280_ssjjss_1.jpg></a>')
+		//document.write('<a href=https://item.taobao.com/item.htm?ft=t&id=682769263204&spm=a21dvs.23580594.0.0.621e3d0d5opyBO target=_blank style="display:block;width:336px;height:280px;"><img src=http://union.e12345.com/image/m3_280x280_xinran_1.jpg width=280 height=280 align=center alt=欣然文字设计></a>')
+		//document.write('<a href=https://ibaotu.com/font/?spm=sjszk target=_blank><img src=http://union.e12345.com/image/m3_336x280_ssjjss_1.jpg></a>')
+	//}else if(/(web.aa6666.com)/.test(window.location.hostname)){
+		// 2022-9-1
+		//document.write('<a href="tencent://message/?uin=70069137&Site=&Menu=yes"><img src=http://union.e12345.com/image/m3_336x280_xsyy_1.jpg?v=2></a>')
+	//}else if(/(seal.skyfont.com)/.test(window.location.hostname)){
+		// 2022-3-7
+		//document.write('<a href=tencent://message/?uin=2199538021&Site=&Menu=yes title=图片处理 style="display:block;width:336px;height:280px;"><img src=http://www.p12345.com/common/gg/300x250_jieju_1.jpg style="border:10px solid #fff;margin-top:1px;"></a>')
+	}else{
+		var wd=window.devicePixelRatio
+		var hd= wd && wd>1 ? '_2x':''
+		document.write('<a href=http://www.p12345.com/?refer=ggcore_seal target=_blank><img src=http://union.e12345.com/image/m3_336x280_ptb_1'+hd+'.jpg width=336></a>')
+	}
+	*/
+	doc.gg('336x280_ti')
+}
+ggcore.m3_336x280_c=function(){
+	
+	if(/(web.aa6666.com)/.test(window.location.hostname)&&0){
+		//2023-7-23
+		/*
+		document.write('<a id=client_down href=javascript:void(0) target=_self><img src=http://union.e12345.com/image/m3_336x280_client_1.jpg alt=395客户端></a>')
+		$('#client_down').click(function(){
+			layer.open({
+				isOutAnim: false,
+				shadeClose: true,
+				maxWidth: 768,
+				title:'395客户端下载',
+				content:'蓝奏云：<a href="https://wwcq.lanzouj.com/iCV9A17jvmxe" target="_blank" style="text-decoration:none;">https://wwcq.lanzouj.com/iCV9A17jvmxe</a>'
+			})
+		})
+		*/
+
+		//2022-5-17
+		//document.write('<a href="tencent://message/?uin=2975216264&Site=&Menu=yes"><img src=http://union.e12345.com/image/m3_336x280_qijiedi_1.jpg></a>')
+
+		//2022-7-18
+		//document.write('<a href=https://isite.baidu.com/site/wjzdscmb/a6df313c-e5ed-40bc-8130-5ae7c097f848 target=_blank><img src=http://union.e12345.com/image/m3_336x280_esign_1.jpg alt=e签宝></a>')
+		//document.write('<a href=https://www.esign.cn/pcgw/sy/mfsy/mfsy/?utm_source=%E5%85%B6%E4%BB%96**%E5%88%9B%E6%96%B0%E6%B8%A0%E9%81%93**out%E7%BD%91%E7%AB%99%E5%BC%95%E6%B5%81&utm_campaign=%E7%BD%91%E7%AB%99%E5%BC%95%E6%B5%81&_channel_track_key=ICVlKGgt target=_blank><img src=http://union.e12345.com/image/m3_336x280_esign_1.jpg alt=e签宝></a>')
+		//document.write('<a href=https://www.esign.cn/landing/common?utm_source=%E5%85%B6%E4%BB%96**%E5%88%9B%E6%96%B0%E6%B8%A0%E9%81%93**out%E7%BD%91%E7%AB%99%E5%BC%95%E6%B5%81&tsign_source_type=ONLINE_PROMOTION&_channel_track_key=IKV3aM37 target=_blank><img src=http://union.e12345.com/image/m3_336x280_esign_1.jpg alt=e签宝></a>')
+	}else{
+		//2024-6-26
+		//document.write('<a href=https://ibaotu.com/font/?spm=sjszk target=_blank><img src=http://union.e12345.com/image/m3_336x280_ibaotu_1.jpg alt=包图小白体></a>')
+		doc.gg('336x280_ti')
+	}
+}
+ggcore.m3_336x280_r=function(){
+	/*
+	if(/(www.skyfont.com|www.ssjjss.com|font.ssjjss.com|shufa.p12345.com|en.skyfont.com|big.skyfont.com|type.skyfont.com)/.test(window.location.hostname)){
+		//document.write('<a href=http://www.shufami.com/?refer=ggcore_font target=_blank><img src=http://union.e12345.com/image/m3_336x280_shufami_1.jpg></a>')
+		//document.write('<a href=https://www.plb.tw/GB/ target=_blank title=南无阿弥陀佛><img src=http://union.e12345.com/image/m3_336x280_plb_1.png alt=净土宗></a>')
+		//document.write('<a href=https://www.plb.tw/GB/ target=_blank title=净土宗 style="display:block;width:336px;height:280px;background:#E3D7C9;"><img src=http://union.e12345.com/image/img/hz/'+ggcore.getNum(27)+'.gif width=280 height=280 align=center alt=传统文化></a>')
+	}else{
+		//document.write('<span style="color:#bbc;font-size:9px;">Namo Amitabha</span>')  //mr
+		//document.write('<a href=http://gold.ssjjss.com/ target=_blank title=国际印章 style="display:block;width:336px;height:280px;"><img src=http://union.e12345.com/image/img/qy/'+ggcore.getNum(24)+'.gif width=209 height=277 align=center alt=企业文化 style="border-radius: 3px; box-shadow: rgb(67 62 60 / 30%) 0px 1px 2px 0px, rgb(67 62 60 / 15%) 0px 1px 3px 1px;"></a>')
+	}
+
+	if(/(web.aa6666.com)/.test(window.location.hostname)){
+		doc.gg('336x280_ti')
+	}else{
+	}
+	*/
+	//document.write('<a href=http://www.ssjjss.com/sign-select/?refer=ggcore_seal_font target=_blank title=电子签名 style="display:block;width:336px;height:280px;"><img src=http://union.e12345.com/image/m3_280x280_signature_1.jpg width=280 height=280 align=center alt=签名设计></a>')
+	//document.write('<a href=https://shop.395.net.cn/?r=/l&kw=签名设计 target=_blank title=电子签名 style="display:block;width:336px;height:280px;"><img src=http://union.e12345.com/image/m3_280x280_signature_1.jpg width=280 height=280 align=center alt=签名设计></a>')
+	document.write('<a href=https://ibaotu.com/font/?spm=sfmbn target=_blank><img src=http://union.e12345.com/image/m3_336x280_ibaotu_2.jpg></a>')
+}
+
+
+ggcore.m2_336x280_l=function(){
+	//document.write('<span style="color:#bbc;font-size:9px;">Namo Amitabha</span>')  //ml
+	doc.gg('336x280_ti')
+	//document.write('<script data-ad-client="ca-pub-4186526300894192" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>')
+}
+ggcore.m2_336x280_r=function(){
+	//document.write('<span style="color:#bbc;font-size:9px;">Namo Amitabha</span>')  //mr
+	//document.write('<a href=https://m.xmhytf.com/chapter/hjlsf.html?spread=a495oy8m target=_blank><img src=http://union.e12345.com/image/m2_336x280_xmhytf_hjlsf_1.jpg></a>')
+	document.write('<a href=https://ibaotu.com/font/?spm=sfmbn target=_blank><img id=dayue_336 src=http://union.e12345.com/image/m3_336x280_ibaotu_2.jpg></a>')
+	if($){
+		var wd=window.devicePixelRatio
+		if(wd && wd>1){
+			$('#dayue_336')[0].src='http://union.e12345.com/image/m2_336x280_dayue_2_2x.png'
+		}
+	}
+	//document.write('<a href=https://www.plb.tw/GB/ target=_blank title=南无阿弥陀佛><img src=http://union.e12345.com/image/m2_336x280_plb_1.png alt=净土宗></a>')
+	//document.write('<a href=https://www.plb.tw/GB/ target=_blank title=净土宗 style="display:block;width:336px;height:280px;background:#E3D7C9;"><img src=http://union.e12345.com/image/img/hz/'+ggcore.getNum(27)+'.gif width=280 height=280 align=center alt=传统文化></a>')
+	//document.write('<a href=http://seal.skyfont.com/?refer=ggcore_shufa target=_blank><img src=http://union.e12345.com/image/m2_336x280_zk_1.png alt=篆刻印章设计></a>')
+}
+
+
+ggcore.m3_300x250_l=function(){
+	if(/(shufa.z12345.com|zhuanti.shufaziti.com|sansan.shufaji.com|duoti.shufaji.com|zixing.shufami.com)/.test(window.location.hostname)){
+		//document.write('<a href=https://m.xmhytf.com/chapter/hjlsf.html?spread=a495oy8m target=_blank><img src=http://union.e12345.com/image/m2_336x280_xmhytf_hjlsf_1.jpg width=288 height=240></a>')
+		document.write('<a href=https://ibaotu.com/font/?spm=sfmbn target=_blank><img id=dayue_300 src=http://union.e12345.com/image/m3_336x280_ibaotu_2.jpg width=288 height=240></a>')
+		if($){
+			var wd=window.devicePixelRatio
+			if(wd && wd>1){
+				$('#dayue_300')[0].src='http://union.e12345.com/image/m2_336x280_dayue_2_2x.png'
+			}
+		}
+		//document.write('<a href=https://www.plb.tw/GB/ target=_blank title=南无阿弥陀佛><img src=http://union.e12345.com/image/m2_336x280_plb_1.png width=288 height=240 alt=净土宗></a>')
+		//document.write('<a href=https://www.plb.tw/GB/ target=_blank title=净土宗 style="display:inline-block;width:288px;height:240px;background:#E3D7C9;"><img src=http://union.e12345.com/image/img/hz/'+ggcore.getNum(27)+'.gif width=240 height=240 align=center alt=传统文化></a>')
+		//document.write('<a href=http://seal.skyfont.com/?refer=ggcore_shufa target=_blank><img src=http://union.e12345.com/image/m2_336x280_zk_1.png width=300 height=250 alt=篆刻印章设计></a>')
+	}else{
+		//document.write('<span style="color:#bbc;font-size:9px;">Namo Amitabha</span>')  //ml
+		document.write('<a href=http://hao.shufami.com/#study target=_blank><img src=http://union.e12345.com/image/m3_300x250_study_1.jpg></a>')
+	}
+}
+ggcore.m3_300x250_c=function(){
+	//document.write('<span style="color:#bbc;font-size:9px;">Namo Amitabha</span>')  //mc
+	doc.gg('300x250_ti')
+}
+ggcore.m3_300x250_r=function(){
+	if(/(shufa.z12345.com|zhuanti.shufaziti.com|sansan.shufaji.com|duoti.shufaji.com|zixing.shufami.com)/.test(window.location.hostname)){
+		document.write('<a href=http://www.shufami.com/?refer=ggcore_shufa target=_blank><img src=http://union.e12345.com/image/m3_336x280_shufami_1.jpg width=288 height=240></a>')
+	}else{
+		//document.write('<span style="color:#bbc;font-size:9px;">Namo Amitabha</span>')  //mr
+		document.write('<a href=http://www.e12345.com/word/?refer=ggcore_english target=_blank><img src=http://union.e12345.com/image/m3_300x250_english_1.jpg></a>')
+	}
+}
+ggcore.m1_1200x90_1=function(){
+	//2023-2-17
+	/*
+	if(!window.location.search){
+		var h=window.location.hostname
+		if(/(www.skyfont.com|www.ssjjss.com|font.ssjjss.com|shufa.p12345.com|en.skyfont.com|big.skyfont.com|type.skyfont.com)/.test(h)){
+			document.write('<div class=mhide style="text-align:center;padding:10px 0;border-top:1px solid #fff;border-bottom:1px solid #C0C0C0;"><a href=https://ibaotu.com/font/?spm=sjszk target=_blank><img src=http://union.e12345.com/image/m1_1180x230_ibaotu_1.gif></a></div>')
+		}else if(/(shufa.ssjjss.com)/.test(h)){
+			//www.shufami.com
+			document.write('<div class=mhide style="text-align:center;margin:10px 0 0 0;"><a href=https://ibaotu.com/font/?spm=sjszk target=_blank><img src=http://union.e12345.com/image/m1_1180x230_ibaotu_1.gif></a></div>')
+		}
+	}
+	*/
+}
+
+ggcore.zi_336x280_1=function(){
+	doc.gg('336x280_ti')
+	/*
+	var a=[
+		'<a href=https://m.xmhytf.com/chapter/hjlsf.html?spread=a495oy8m target=_blank title=台湾著名书法教育家带你『零基础学书法』><img src=http://union.e12345.com/image/zi_336x280_xmhytf_mzxlk.jpg width=336 height=280 alt=零基础学书法 /></a>',
+		'<a href=https://m.xmhytf.com/chapter/oadlqf.html?spread=a495oy8m target=_blank title=【31天硬笔字速成】练一手好字，让【字】赢在起跑线><img src=http://union.e12345.com/image/zi_336x280_xmhytf_31t.jpg width=336 height=280 alt=31天硬笔字速成 /></a>'
+	]
+	var s=a[Math.floor(a.length*Math.random())]
+	document.write(s)
+	*/
+}
+ggcore.zi_336x280_2=function(){
+		document.write('<a href=http://www.e12345.com/word/?refer=ggcore_english target=_blank><img src=http://union.e12345.com/image/m3_300x250_english_1.jpg></a>')
+}
+
+//document.write('<script src="http://union.e12345.com/image/ua-parser.min.js"></script>')
+
+ggcore.mobi_1_f=function(){
+	/*
+	var d=UAParser()
+	if(d.device.type=='mobile' && d.browser.name!='Chrome2' && (d.browser.name+' '+d.browser.version!='QQBrowser 8.1') ){
+
+		//pc err : Firefox Edge
+		//pc corr: Chrome 360jisu Sogou QQBrowser Vivaldi
+		//mp err : X5
+
+		//tiancheen fixed
+		//document.write('<script src="https://qc.wqshui.com/hm/cdn/static/jq_771656.js"></script>')
+
+	}
+	*/
+}
+
+window.addEventListener('load', function(event){
+	var d = document.createElement('div')
+	document.body.appendChild(d)
+	d.innerHTML = '<style>'
+		+'.wc-bar{position:fixed;right:0;bottom:1px;font:13px/1.5 arial;color:#fff;}'
+		+'.wc-csbtn{padding:8px;color:#fff;background-color:#083178;cursor:pointer;}'
+		+'.wc-cstel{position:absolute;left:-148px;width:131px;padding:8px;background-color:#083178;display:none;box-sizing:content-box;}'
+		+'.wc-bar:hover .wc-cstel{display:block}'
+		+'</style>'
+		+'<div class=wc-bar><div class=wc-cstel>手机：13660867923<br>ＱＱ：1553998766</div><div class=wc-csbtn title=点击返回顶部>网站<br>咨询</div></div>'
+	if(jQuery){
+		$('.wc-bar').css('z-index',$('.layui-layer').css('z-index')+10)
+		$('.wc-csbtn').click(function(){
+			$('html, body').animate({scrollTop: 0},1000)
+		})
+	}
+})

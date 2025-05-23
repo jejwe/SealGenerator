@@ -1,0 +1,471 @@
+﻿if(window.location.pathname=='/login/'){
+
+	$(function(){
+
+		$('body').show()
+		doc.loginchk()
+
+		var tipsLeftIdx
+		var tipsLeft=function(ele,str,clr){
+			clr = clr || '#263238'
+			layer.close(tipsLeftIdx)
+			tipsLeftIdx=layer.tips('<div style="text-align:center;">'+str+'<div>', $('#'+ele), {tips: [4,clr], tipsMore: true})
+		}
+
+		var tipsRight=function(ele,str,clr){
+			clr = clr || '#FF5722'
+			var e=$('#'+ele)
+			layer.close(e.data('idx'))
+			var idx=layer.tips('<div style="text-align:center;">'+str+'<div>', e, {tips: [2,clr], tipsMore: true})
+			e.data('idx',idx)
+		}
+
+		$('body',document).on('keydown keypress keyup',function(e){
+			if(event.key=='Escape'){
+				$('html').css('background','#D3E3FD')
+				$('body').hide()
+				window.location.reload()
+			}
+		})
+
+		// 登记窗开始
+
+		var layerSignin_idx= layer.prompt( layerSignin_opt={
+			title: ['395 登记','color:#000; background:#fff;'],
+			formType: 2,
+			closeBtn: 0,
+			shade: [1,'#D3E3FD'],
+			content: '<form id="signin_form" class="sign-form">'
+					+'手机：<input type="text" id="s_cellphone" name="cellphone" class="layui-layer-input sign-input" placeholder="请输入手机号，快速登记制章">'
+					+'<input type="hidden" name="stat">'
+					+'</form>'
+			,
+			success: function(layero){
+				layero.find('.layui-layer-btn0').css('background-color','#263238').css('border-color','#263238').addClass('mu-button').ripples().attr('title','快速登记')
+				layero.find('.layui-layer-btn1').attr('title','账号密码登录')
+				layero.find('.layui-layer-input').on('keydown',function(e){
+					if(e.which==13){
+						layerSignin_opt.yes(layerSignin_idx,layero)
+					}
+				})
+				$('#signin_form').submit(function(event){
+					event.preventDefault()
+				})
+			},
+			btn: ['登记','登录'],
+			yes: function(index, layero){
+
+				var s_cellphone=$('#s_cellphone').val()
+
+				if( s_cellphone=='' ){
+					tipsRight('s_cellphone', '请输入手机号')
+
+				}else if( !/^\d{11}$/.test(s_cellphone) ){
+					tipsRight('s_cellphone', '手机号错误')
+
+				}else{
+					var stat={}
+					stat.time = Date.now()
+					if (window && window.screen) {
+						stat.sw = window.screen.width || 0
+						stat.sh = window.screen.height || 0
+					}
+					if (navigator) {
+						stat.lang = navigator.language || ''
+						stat.ua = navigator.userAgent || ''
+					}
+					var signinFunc=function(){
+						$('#signin_form')[0].stat.value=JSON.stringify(stat)
+						$.post(WSURL+'/webservice/signin.asp', $('#signin_form').serialize())
+						window.setTimeout(function(){
+							doc.loginok('{"cellphone":"'+s_cellphone+'"}')
+							layer.close(index)
+						},100)
+					}
+					/*
+					$.ajax({
+						url: 'http://ip.useragentinfo.com/json',
+						dataType: 'json',
+						timeout: 2000,
+						success: function(data){
+							stat.ip = data
+							delete stat.ip.code
+							delete stat.ip.desc
+							try{
+								var fpPromise = FingerprintJS.load()
+								fpPromise
+									.then(fp => fp.get())
+									.then(result => {
+										stat.fp=result.visitorId
+										signinFunc()
+									})
+							}catch(e){
+								signinFunc()
+							}
+						},
+						error: function(xhr, textStatus, errorThrown){
+							if(textStatus === 'timeout'){
+								signinFunc()
+							}
+						}
+					})
+					*/
+					try{
+						var fpPromise = FingerprintJS.load()
+						fpPromise
+							.then(fp => fp.get())
+							.then(result => {
+								stat.fp=result.visitorId
+								signinFunc()
+							})
+					}catch(e){
+						signinFunc()
+					}
+				}
+			},
+			btn2: function(){
+
+				// 登录窗开始
+
+				var oldtimeLog=0
+				var layerLogin_opt
+				var layerLogin_idx= layer.prompt( layerLogin_opt={
+					title: ['395 登录','color:#000; background:#fff;'],
+					formType: 2,
+					closeBtn: 0,
+					shade: [1,'#D3E3FD'],
+					content: '<form id="login_form" class="sign-form">'
+							+'账号：<input type="text" id="s_username" name="username" class="layui-layer-input sign-input" placeholder="请输入手机号或邮箱"><br>'
+							+'<img src="/images/spacer.gif" class="password-eye">'
+							+'密码：<input type="password" id="s_password" name="password" class="layui-layer-input" placeholder="请输入密码">'
+							+'</form>'
+					,
+					success: function(layero){
+						layero.find('.layui-layer-btn0').css('background-color','#263238').css('border-color','#263238').addClass('mu-button').ripples().attr('title','登录账号')
+						layero.find('.layui-layer-btn1').attr('title','注册账号')
+						layero.find('.layui-layer-btn2').attr('title','快速登记')
+						layero.find('.layui-layer-input').on('keydown',function(e){
+							if(e.which==13){
+								layerLogin_opt.yes(layerLogin_idx,layero)
+							}
+						})
+						$('#login_form').submit(function(event){
+							event.preventDefault()
+						})
+						layero.find('.password-eye').click(function(){
+							$(this).next().prop('type', $(this).toggleClass('password-eye-on').hasClass('password-eye-on')?'text':'password')
+						})
+					},
+					btn: ['登录','注册','登记'],
+					yes: function(index, layero){
+
+						var now=Date.now()
+						if(now-oldtimeLog<2000) return;
+						oldtimeLog=now
+
+						var s_username=$('#s_username').val()
+						var s_password=$('#s_password').val()
+
+						if( s_username=='' ){
+							tipsRight('s_username', '请输入账号')
+
+						}else if( !/^([a-zA-Z]\w{5,17}|\d{11}|\d{11}@[\w\.]+)$/.test(s_username) ){
+							tipsRight('s_username', '账号错误')
+
+						}else if( s_password=='' ){
+							tipsRight('s_password', '请输入密码')
+
+						}else if( !/[\w~!@#$%^&*)(_+}{|:?><]{8,16}/.test(s_password) ){
+							tipsRight('s_password', '密码错误')
+
+						}else{
+							$('#weui_loader').delay(300).show(0).css('z-index', 1+layero.css('z-index'))
+								.find('.weui-toast').css('top', ($(window).height()-$('.weui-toast').height())/2-1)
+
+							$.ajax({
+								type:'post',
+								url:WSURL+'/webservice/login.asp',
+								data:$('#login_form').serialize(),
+								success:function(text){
+									var a=text.split('|')
+									if(a[0]){
+										layer.msg(a[1], {anim:5, time:1800, isOutAnim:false})
+										if(a[0]=='success'){
+											doc.loginok(a[2])
+											layer.close(index)
+										}
+									}
+								},
+								complete:function(){
+									$('#weui_loader').hide()
+								}
+							})
+						}
+					},
+
+					btn2: function(){
+
+						var suffix=	 '@163.com'
+									+'@126.com'
+									+'@yeah.net'
+									+'@vip.163.com'
+									+'@vip.126.com'
+									+'@188.com'
+									+'@vip.188.com'
+									+'@qq.com'
+									+'@vip.qq.com'
+									+'@foxmail.com'
+									+'@189.cn'
+									+'@139.com'
+
+						var RE=suffix.replace(/@/g,'|@').substr(1)
+						RE=new RegExp('^\d{11}('+RE+')$','i')
+
+						var email_ok=0
+						var username_ok=0
+
+						// 注册窗开始
+
+						var oldtimeReg=0
+						var layerReg_opt
+						var layerReg_idx= layer.prompt( layerReg_opt={
+							title: ['395 注册','color:#000; background:#fff;'],
+							formType: 2,
+							closeBtn: 0,
+							shade: [1,'#D3E3FD'],
+							content: '<form id="reg_form" class="sign-form">'
+									+'手机：<input type="text" id="r_cellphone" name="cellphone" class="layui-layer-input sign-input" placeholder="手机号"><br>'
+									//+'邮箱：<input type="text" id="r_email" name="email" class="layui-layer-input sign-input" placeholder="手机号邮箱：手机号@163.com"><br>'
+									//+'账号：<input type="text" id="r_username" name="username" class="layui-layer-input sign-input" placeholder="请输入账号：字母开头，可含数字"><br>'
+									+'<img src="/images/spacer.gif" class="password-eye">'
+									+'密码：<input type="password" id="r_password" name="password" class="layui-layer-input sign-input" placeholder="请输入密码"><br>'
+									+'<img src="/images/spacer.gif" class="password-eye">'
+									+'　　　<input type="password" id="r_password2" class="layui-layer-input" placeholder="请再次输入密码">'
+									+'</form>'
+							,
+							success: function(layero){
+
+								$('#r_cellphone').focus(function(){
+									tipsLeft('r_cellphone', '11位手机号')
+
+								}).blur(function(){
+									var r_cellphone=this.value
+									if( r_cellphone=='' ){
+									}else if( !/^\d{11}$/.test(r_cellphone) ){
+										tipsRight('r_cellphone', '手机号格式错误')
+
+									}else{
+										cellphone_ok=1
+										$.ajax({
+											type:'post',
+											url:WSURL+'/webservice/check.asp',
+											data:'cellphone='+this.value,
+											success:function(text){
+												var a=text.split('|')
+												if(a[0]=='error'){
+													tipsRight('r_cellphone', a[1])
+													cellphone_ok=0
+												}else if(a[0]=='success'){
+													tipsRight('r_cellphone', a[1], '#4CAF50')
+													cellphone_ok=1
+												}
+											}
+										})
+									}
+								})
+
+								/*
+								$('#r_email').focus(function(){
+									tipsLeft('r_email', '支持 163.com、189.cn、139.com、qq.com <br>手机号邮箱<br>格式：手机号@163.com')
+
+								}).blur(function(){
+									this.value=this.value.toLowerCase()
+									var r_email=this.value
+									if( r_email=='' ){
+									}else if( !RE.test(r_email) ){
+										tipsRight('r_email', '邮箱格式错误')
+
+									}else{
+										$.ajax({
+											type:'post',
+											url:WSURL+'/webservice/check.asp',
+											data:'email='+this.value,
+											success:function(text){
+												var a=text.split('|')
+												if(a[0]=='error'){
+													tipsRight('r_email', a[1])
+													email_ok=0
+												}else if(a[0]=='success'){
+													tipsRight('r_email', a[1], '#4CAF50')
+													email_ok=1
+												}
+											}
+										})
+									}
+
+								})
+
+								$('#r_username').focus(function(){
+									tipsLeft('r_username', '6~18个字符，仅可使用字母、数字、下划线，需要以字母开头')
+
+								}).blur(function(){
+									var r_username=this.value
+									if( r_username=='' ){
+									}else if( !/^[a-zA-Z]\w{5,17}$/.test(r_username) ){
+										tipsRight('r_username', '账号格式错误')
+
+									}else{
+										$.ajax({
+											type:'post',
+											url:WSURL+'/webservice/check.asp',
+											data:'username='+this.value,
+											success:function(text){
+												var a=text.split('|')
+												if(a[0]=='error'){
+													tipsRight('r_username', a[1])
+													username_ok=0
+												}else if(a[0]=='success'){
+													tipsRight('r_username', a[1], '#4CAF50')
+													username_ok=1
+												}
+											}
+										})
+									}
+								})
+								*/
+
+								$('#r_password').focus(function(){
+									tipsLeft('r_password', '8~16个字符，可包含大、小写字母和数字')
+
+								}).blur(function(){
+									var r_password=this.value
+									if( r_password=='' ){
+									}else if( !/[\w~!@#$%^&*)(_+}{|:?><]{8,16}/.test(r_password) ){
+										tipsRight('r_password', '密码格式错误')
+									}
+								})
+
+								$('#r_password2').blur(function(){
+									var r_password=$('#r_password').val()
+									var r_password2=this.value
+									if( r_password2=='' ){
+									}else if( r_password!=r_password2 ){
+										tipsRight('r_password2', '两个密码不一致')
+									}
+								})
+
+								layero.find('.layui-layer-btn0').css('background-color','#263238').css('border-color','#263238').addClass('mu-button').ripples().attr('title','注册账号')
+								layero.find('.layui-layer-btn1').attr('title','登录账号')
+								layero.find('.layui-layer-btn2').attr('title','快速登记')
+								layero.find('.layui-layer-input').on('keydown',function(e){
+									if(e.which==13){
+										layerReg_opt.yes(layerReg_idx,layero)
+									}
+								})
+								$('#reg_form').submit(function(event){
+									event.preventDefault()
+								})
+								layero.find('.password-eye').click(function(){
+									$(this).next().prop('type', $(this).toggleClass('password-eye-on').hasClass('password-eye-on')?'text':'password')
+								})
+							},
+
+							btn: ['注册','登录','登记'],
+							yes: function(index, layero){
+
+								var now=Date.now()
+								if(now-oldtimeReg<2000) return;
+								oldtimeReg=now
+
+								var r_cellphone=$('#r_cellphone').val()
+								//var r_email=$('#r_email').val()
+								//var r_username=$('#r_username').val()
+								var r_password=$('#r_password').val()
+								var r_password2=$('#r_password2').val()
+
+								if( r_cellphone=='' ){
+									tipsRight('r_cellphone', '请输入手机号')
+
+								/*
+								if( r_email=='' ){
+									tipsRight('r_email', '请输入手机号邮箱')
+
+								}else if( !RE.test(r_email) ){
+									//tipsRight('r_email', '邮箱格式错误')
+
+								}else if( r_username=='' ){
+									tipsRight('r_username', '请输入账号')
+
+								}else if( !/^[a-zA-Z]\w{5,17}$/.test(r_username) ){
+									//tipsRight('r_username', '账号格式错误')
+								*/
+
+								}else if( r_password=='' ){
+									tipsRight('r_password', '请输入密码')
+
+								}else if( !/[\w~!@#$%^&*)(_+}{|:?><]{8,16}/.test(r_password) ){
+									//tipsRight('r_password', '密码格式错误')
+
+								}else if( r_password2=='' ){
+									tipsRight('r_password2', '请再次输入密码')
+
+								}else if( r_password!=r_password2 ){
+									//tipsRight('r_password2', '两个密码不一致')
+
+								//}else if( email_ok && username_ok ){
+								}else if( cellphone_ok ){
+									$('#weui_loader').delay(300).show(0).css('z-index', 1+layero.css('z-index'))
+										.find('.weui-toast').css('top', ($(window).height()-$('.weui-toast').height())/2-1)
+
+									$.ajax({
+										type:'post',
+										url:WSURL+'/webservice/reg.asp',
+										data:$('#reg_form').serialize(),
+										success:function(text){
+											var a=text.split('|')
+											if(a[0]){
+												layer.msg(a[1], {anim:5, isOutAnim:false})
+												if(a[0]=='success'){
+													layer.close(index)
+												}
+											}
+										},
+										complete:function(){
+											$('#weui_loader').hide()
+										}
+									})
+
+								}else{
+									layer.msg('注册信息错误', {anim:5, isOutAnim:false})
+
+								}
+							},
+							btn2: function(){
+								//return false
+							},
+
+							btn3: function(){
+								window.location.reload()
+							}
+						})
+
+						// 注册窗结束
+
+						return false
+					},
+
+					btn3: function(){
+						window.location.reload()
+					}
+				})
+
+				// 登录窗结束
+
+				return false
+			}
+		})
+
+		// 登记窗结束
+
+	})
+}
